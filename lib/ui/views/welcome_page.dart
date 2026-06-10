@@ -12,7 +12,13 @@ class WelcomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 10,
           children: [
-            CircleAvatar(),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white),
+              ),
+              child: Icon(Icons.graphic_eq, size: 70),
+            ),
             Text(
               'Tranquilo',
               style: TextTheme.of(context).displayLarge?.copyWith(
