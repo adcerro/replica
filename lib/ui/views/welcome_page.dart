@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -38,7 +39,7 @@ class WelcomePage extends StatelessWidget {
             ),
             Text(
               'Registra, protege y entiende\ntus finanzas personales.',
-              style: TextTheme.of(context).labelSmall?.copyWith(
+              style: TextTheme.of(context).bodySmall?.copyWith(
                 color: Colors.white.withValues(alpha: 0.75),
                 fontSize: 14,
               ),
@@ -51,8 +52,14 @@ class WelcomePage extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadiusGeometry.circular(10),
                 ),
+                textStyle: TextTheme.of(context).labelLarge?.copyWith(
+                  fontWeight: FontWeight(700),
+                  fontSize: 16,
+                ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed('/welcome_info');
+              },
               child: Text('Empezar →'),
             ),
           ],
