@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tester/ui/widgets/custom_card.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 
@@ -50,6 +51,7 @@ class WelcomeInfoPage extends StatelessWidget {
                   subtitle: Text(
                     'Solo tú accedes a tu información financiera',
                     style: cardSubtitleStyle,
+                    maxLines: 3,
                   ),
                 ),
                 CustomCard(
@@ -80,12 +82,16 @@ class WelcomeInfoPage extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed('/start', arguments: {'register': true});
+                  },
                   child: Text('Crear mi cuenta →'),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(foregroundColor: Colors.white),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed('/start', arguments: {'register': false});
+                  },
                   child: Text(
                     'Ya tengo cuenta',
                     style: TextTheme.of(context).bodySmall?.copyWith(

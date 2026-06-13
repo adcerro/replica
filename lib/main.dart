@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/welcome_info_page.dart';
 import 'package:tester/ui/views/welcome_page.dart';
 
@@ -24,8 +25,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         textTheme: GoogleFonts.geistTextTheme(),
       ),
-      home: const WelcomePage(),
-      routes: {'/welcome_info': (context) => WelcomeInfoPage()},
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => WelcomePage()),
+        GetPage(name: '/welcome_info', page: () => WelcomeInfoPage()),
+        GetPage(name: '/start', page: () => StartPage()),
+      ],
     );
   }
 }

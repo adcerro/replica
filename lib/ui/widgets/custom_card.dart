@@ -27,11 +27,13 @@ class CustomCard extends StatelessWidget {
           spacing: 10,
           children: [
             leading,
-            Column(
-              spacing: 10,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [title, subtitle],
+            Expanded(
+              child: Column(
+                spacing: 10,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [title, subtitle],
+              ),
             ),
           ],
         ),
