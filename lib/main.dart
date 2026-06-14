@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tester/ui/views/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/welcome_info_page.dart';
 import 'package:tester/ui/views/welcome_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => WelcomePage()),
         GetPage(name: '/welcome_info', page: () => WelcomeInfoPage()),
         GetPage(name: '/start', page: () => StartPage()),
+        GetPage(name: '/income', page: () => IncomePage()),
       ],
     );
   }

@@ -223,7 +223,9 @@ class _StartPageState extends State<StartPage> {
             ),
             SizedBox(height: 10),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed('/income');
+              },
               child: Text(
                 'Continuar sin cuenta',
                 style: TextTheme.of(context).bodySmall?.copyWith(
@@ -357,7 +359,9 @@ class _StartPageState extends State<StartPage> {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed('/income');
+              },
               child: Text(
                 'Continuar sin cuenta',
                 style: TextTheme.of(context).bodySmall?.copyWith(
