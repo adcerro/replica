@@ -37,7 +37,6 @@ dependencies:
   get: ^4.7.3
   google_fonts: ^8.1.0
   animated_toggle_switch: ^0.8.7
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -49,11 +48,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   rename_app: ^1.6.6
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
+  icons_launcher: ^3.1.0
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -62,8 +57,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/intranquilo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -91,3 +86,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+icons_launcher:
+  image_path: "assets/intranquilo.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+    web:
+      enable: true
+    windows:
+      enable: true

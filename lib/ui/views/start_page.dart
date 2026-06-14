@@ -91,6 +91,7 @@ class _StartPageState extends State<StartPage> {
       ),
       SizedBox(height: 10),
       registerLoginToggle(context),
+      Form(child: Column(children: [TextField(), TextField()])),
     ];
   }
 
