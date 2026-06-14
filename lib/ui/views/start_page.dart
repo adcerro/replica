@@ -50,15 +50,20 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GradientBackground(
-      child: Center(
-        child: SizedBox(
-          width: 360,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 10,
-            children: register ? registerScreen(context) : loginScreen(context),
+    return Scaffold(
+      backgroundColor: Color(0xFF0D6259),
+      body: GradientBackground(
+        child: Center(
+          child: SizedBox(
+            width: 360,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 10,
+              children: register
+                  ? registerScreen(context)
+                  : loginScreen(context),
+            ),
           ),
         ),
       ),

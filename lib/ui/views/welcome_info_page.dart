@@ -18,6 +18,7 @@ class WelcomeInfoPage extends StatelessWidget {
       fontSize: 12,
     );
     return Scaffold(
+      backgroundColor: Color(0xFF0D6259),
       body: GradientBackground(
         child: Center(
           child: SizedBox(

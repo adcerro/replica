@@ -8,6 +8,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF0D6259),
       body: GradientBackground(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

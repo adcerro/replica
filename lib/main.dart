@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Tranqui',
+      title: 'Intranquilo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Color.fromRGBO(5, 28, 27, 0),
