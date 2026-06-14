@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final enabledBorder = OutlineInputBorder(
@@ -10,7 +11,12 @@ class CustomTextField extends StatelessWidget {
     borderSide: BorderSide(color: Colors.white),
     borderRadius: BorderRadius.circular(12),
   );
-  CustomTextField({super.key, required this.hintText});
+  TextAlign textAlign;
+  CustomTextField({
+    super.key,
+    required this.hintText,
+    this.textAlign = TextAlign.start,
+  });
   @override
   Widget build(BuildContext context) {
     final inputHintStyle = TextTheme.of(context).labelSmall?.copyWith(
@@ -21,6 +27,7 @@ class CustomTextField extends StatelessWidget {
       context,
     ).labelSmall?.copyWith(color: Colors.white, fontSize: 14);
     return TextField(
+      textAlign: textAlign,
       cursorColor: Colors.white,
       style: inputTextStyle,
       decoration: InputDecoration(
