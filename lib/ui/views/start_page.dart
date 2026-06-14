@@ -50,6 +50,20 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
+  TextButton returnButton(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Get.toNamed('/welcome_info');
+      },
+      child: Text(
+        '← Volver',
+        style: TextTheme.of(
+          context,
+        ).bodySmall?.copyWith(color: Colors.white.withValues(alpha: 0.65)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,13 +87,14 @@ class _StartPageState extends State<StartPage> {
   }
 
   bool acceptTerms = false;
-  final underlinedStyle = TextStyle(
-    color: Colors.white.withValues(alpha: 0.85),
-    decoration: TextDecoration.underline,
-    decorationColor: Colors.white,
-    decorationThickness: 2,
-  );
+
   List<Widget> registerScreen(BuildContext context) {
+    final underlinedStyle = TextStyle(
+      color: Colors.white.withValues(alpha: 0.85),
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.white,
+      decorationThickness: 2,
+    );
     final buttonStyle = ElevatedButton.styleFrom(
       fixedSize: const Size(360, 50),
       disabledBackgroundColor: Colors.white.withValues(alpha: 0.45),
@@ -223,24 +238,31 @@ class _StartPageState extends State<StartPage> {
                 fontSize: 10,
               ),
             ),
-            TextButton(
-              onPressed: () {
-                Get.toNamed('/welcome_info');
-              },
-              child: Text(
-                '← Volver',
-                style: TextTheme.of(context).bodySmall?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.65),
-                ),
-              ),
-            ),
           ],
         ),
       ),
+      returnButton(context),
     ];
   }
 
   List<Widget> loginScreen(BuildContext context) {
+    final buttonStyle = ElevatedButton.styleFrom(
+      fixedSize: const Size(360, 50),
+      disabledBackgroundColor: Colors.white.withValues(alpha: 0.45),
+      disabledForegroundColor: Theme.of(context).primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(16),
+      ),
+      textStyle: TextTheme.of(
+        context,
+      ).labelLarge?.copyWith(fontWeight: FontWeight(700), fontSize: 16),
+    );
+    final underlinedStyle = TextStyle(
+      color: Colors.white.withValues(alpha: 0.38),
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.white.withValues(alpha: 0.38),
+      decorationThickness: 2,
+    );
     return [
       Text(
         'Bienvenido de vuelta',
@@ -267,6 +289,105 @@ class _StartPageState extends State<StartPage> {
           children: [
             CustomTextField(hintText: 'tu@email.com'),
             CustomTextField(hintText: 'Contraseña'),
+            ElevatedButton(
+              style: buttonStyle,
+              onPressed: () {
+                Get.showSnackbar(
+                  GetSnackBar(
+                    title: ':(',
+                    message: 'No Implementado',
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              child: Text('Ingresar →'),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.showSnackbar(
+                  GetSnackBar(
+                    title: ':(',
+                    message: 'No Implementado',
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              child: Text(
+                '¿Olvidaste tu contraseña?',
+                style: TextTheme.of(context).bodySmall?.copyWith(
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white.withValues(alpha: 0.45),
+                  color: Colors.white.withValues(alpha: 0.7),
+                ),
+              ),
+            ),
+            Row(
+              spacing: 10,
+              children: [
+                Expanded(
+                  child: Divider(color: Colors.white.withValues(alpha: 0.15)),
+                ),
+                Text(
+                  'o',
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+                ),
+                Expanded(
+                  child: Divider(color: Colors.white.withValues(alpha: 0.15)),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              style: buttonStyle,
+              onPressed: () {
+                Get.showSnackbar(
+                  GetSnackBar(
+                    title: ':(',
+                    message: 'No Implementado',
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              child: Row(
+                spacing: 5,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FaIcon(FontAwesomeIcons.google),
+                  Text('Continuar con Google'),
+                ],
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                'Continuar sin cuenta',
+                style: TextTheme.of(context).bodySmall?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.65),
+                ),
+              ),
+            ),
+            Text(
+              'Solo se guarda en este dispositivo',
+              style: TextTheme.of(context).bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.42),
+                fontSize: 10,
+              ),
+            ),
+          ],
+        ),
+      ),
+      returnButton(context),
+      Text.rich(
+        textAlign: TextAlign.center,
+        style: TextTheme.of(context).bodySmall?.copyWith(
+          color: Colors.white.withValues(alpha: 0.38),
+          fontSize: 10,
+        ),
+        TextSpan(
+          text: 'Al usar Intranquilo aceptas nuestros ',
+          children: [
+            TextSpan(text: 'Términos', style: underlinedStyle),
+            TextSpan(text: ' y nuestra '),
+            TextSpan(text: 'Política de Privacidad', style: underlinedStyle),
           ],
         ),
       ),
