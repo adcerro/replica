@@ -1,6 +1,8 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:tester/ui/widgets/custom_text_field.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 
 class StartPage extends StatefulWidget {
@@ -70,7 +72,25 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
+  bool acceptTerms = false;
+  final underlinedStyle = TextStyle(
+    color: Colors.white.withValues(alpha: 0.85),
+    decoration: TextDecoration.underline,
+    decorationColor: Colors.white,
+    decorationThickness: 2,
+  );
   List<Widget> registerScreen(BuildContext context) {
+    final buttonStyle = ElevatedButton.styleFrom(
+      fixedSize: const Size(360, 50),
+      disabledBackgroundColor: Colors.white.withValues(alpha: 0.45),
+      disabledForegroundColor: Theme.of(context).primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(16),
+      ),
+      textStyle: TextTheme.of(
+        context,
+      ).labelLarge?.copyWith(fontWeight: FontWeight(700), fontSize: 16),
+    );
     return [
       Text(
         'Crea tu espacio',
@@ -91,7 +111,132 @@ class _StartPageState extends State<StartPage> {
       ),
       SizedBox(height: 10),
       registerLoginToggle(context),
-      Form(child: Column(children: [TextField(), TextField()])),
+      Form(
+        child: Column(
+          spacing: 12,
+          children: [
+            CustomTextField(hintText: 'tu@email.com'),
+            CustomTextField(hintText: 'Contraseña'),
+            CustomTextField(hintText: 'Confirmar contraseña'),
+            Row(
+              children: [
+                Checkbox(
+                  activeColor: Colors.white.withValues(alpha: 0.2),
+                  checkColor: Colors.white.withValues(alpha: 0.8),
+                  side: BorderSide(color: Colors.white.withValues(alpha: 0.35)),
+                  value: acceptTerms,
+                  onChanged: (value) {
+                    setState(() {
+                      acceptTerms = !acceptTerms;
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Text.rich(
+                    style: TextTheme.of(context).bodySmall?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.6),
+                    ),
+                    TextSpan(
+                      text: 'He leído y acepto la ',
+                      children: [
+                        TextSpan(
+                          text: 'política de privacidad',
+                          style: underlinedStyle,
+                        ),
+                        TextSpan(text: ' y los '),
+                        TextSpan(
+                          text: 'términos y condiciones',
+                          style: underlinedStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              style: buttonStyle,
+              onPressed: acceptTerms
+                  ? () {
+                      Get.showSnackbar(
+                        GetSnackBar(
+                          title: ':(',
+                          message: 'No Implementado',
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  : null,
+              child: Text('Crear cuenta →'),
+            ),
+            Row(
+              spacing: 10,
+              children: [
+                Expanded(
+                  child: Divider(color: Colors.white.withValues(alpha: 0.15)),
+                ),
+                Text(
+                  'o',
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+                ),
+                Expanded(
+                  child: Divider(color: Colors.white.withValues(alpha: 0.15)),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              style: buttonStyle,
+              onPressed: acceptTerms
+                  ? () {
+                      Get.showSnackbar(
+                        GetSnackBar(
+                          title: ':(',
+                          message: 'No Implementado',
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  : null,
+              child: Row(
+                spacing: 5,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FaIcon(FontAwesomeIcons.google),
+                  Text('Continuar con Google'),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                'Continuar sin cuenta',
+                style: TextTheme.of(context).bodySmall?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.65),
+                ),
+              ),
+            ),
+            Text(
+              'Solo se guarda en este dispositivo',
+              style: TextTheme.of(context).bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.42),
+                fontSize: 10,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Get.toNamed('/welcome_info');
+              },
+              child: Text(
+                '← Volver',
+                style: TextTheme.of(context).bodySmall?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.65),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     ];
   }
 
@@ -116,6 +261,15 @@ class _StartPageState extends State<StartPage> {
       ),
       SizedBox(height: 10),
       registerLoginToggle(context),
+      Form(
+        child: Column(
+          spacing: 12,
+          children: [
+            CustomTextField(hintText: 'tu@email.com'),
+            CustomTextField(hintText: 'Contraseña'),
+          ],
+        ),
+      ),
     ];
   }
 }

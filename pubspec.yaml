@@ -37,6 +37,7 @@ dependencies:
   get: ^4.7.3
   google_fonts: ^8.1.0
   animated_toggle_switch: ^0.8.7
+  font_awesome_flutter: ^11.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
