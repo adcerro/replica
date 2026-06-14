@@ -84,7 +84,7 @@ Under Construction.
 <!-- Roadmap -->
 ## :compass: Roadmap
 
-* [] All Pages
+* [-] All Pages
 
 <!-- Contributing -->
 ## :wave: Contributing

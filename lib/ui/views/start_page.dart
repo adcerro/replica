@@ -1,3 +1,4 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
@@ -11,36 +12,37 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   bool register = Get.arguments['register'];
 
-  SegmentedButton<bool> selectScreen(BuildContext context) {
-    return SegmentedButton<bool>(
-      style: SegmentedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: EdgeInsets.all(4),
-        elevation: 0,
-        tapTargetSize: MaterialTapTargetSize.padded,
-        visualDensity: VisualDensity(),
+  AnimatedToggleSwitch<bool> registerLoginToggle(BuildContext context) {
+    TextStyle? optionTextStyle = TextTheme.of(context).labelSmall?.copyWith(
+      fontWeight: FontWeight.w600,
+      fontSize: 13,
+      color: Colors.white.withValues(alpha: 0.7),
+    );
+    return AnimatedToggleSwitch<bool>.size(
+      current: register,
+      values: const [true, false],
+      indicatorSize: const Size.fromWidth(190),
+      height: 60,
+      style: ToggleStyle(
+        borderColor: Colors.transparent,
+        backgroundColor: Colors.white.withValues(alpha: 0.08),
+        indicatorColor: Colors.white.withValues(alpha: 0.18),
+        borderRadius: BorderRadius.circular(12),
+        indicatorBorderRadius: BorderRadius.circular(12),
       ),
-      showSelectedIcon: false,
-      segments: [
-        ButtonSegment(
-          label: Padding(
-            padding: EdgeInsetsGeometry.all(10),
-            child: Text('Crear cuenta'),
-          ),
-          value: true,
+      iconList: [
+        Container(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Text('Crear cuenta', style: optionTextStyle),
         ),
-        ButtonSegment(
-          label: Padding(
-            padding: EdgeInsetsGeometry.all(10),
-            child: Text('Ingresar'),
-          ),
-          value: false,
+        Container(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Text('Ingresar', style: optionTextStyle),
         ),
       ],
-      selected: <bool>{register},
-      onSelectionChanged: (Set<bool> newSelection) {
+      onChanged: (value) {
         setState(() {
-          register = newSelection.first;
+          register = value;
         });
       },
     );
@@ -50,10 +52,14 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return GradientBackground(
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 10,
-          children: register ? registerScreen(context) : loginScreen(context),
+        child: SizedBox(
+          width: 360,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 10,
+            children: register ? registerScreen(context) : loginScreen(context),
+          ),
         ),
       ),
     );
@@ -68,6 +74,7 @@ class _StartPageState extends State<StartPage> {
           fontWeight: FontWeight.w700,
           fontSize: 26,
         ),
+        textAlign: TextAlign.center,
       ),
       Text(
         'Tu historial financiero, guardado y seguro',
@@ -75,9 +82,10 @@ class _StartPageState extends State<StartPage> {
           color: Colors.white.withValues(alpha: 0.75),
           fontSize: 13,
         ),
+        textAlign: TextAlign.center,
       ),
       SizedBox(height: 10),
-      selectScreen(context),
+      registerLoginToggle(context),
     ];
   }
 
@@ -90,6 +98,7 @@ class _StartPageState extends State<StartPage> {
           fontWeight: FontWeight.w700,
           fontSize: 26,
         ),
+        textAlign: TextAlign.center,
       ),
       Text(
         'Ingresa para ver tus finanzas',
@@ -97,9 +106,10 @@ class _StartPageState extends State<StartPage> {
           color: Colors.white.withValues(alpha: 0.75),
           fontSize: 13,
         ),
+        textAlign: TextAlign.center,
       ),
       SizedBox(height: 10),
-      selectScreen(context),
+      registerLoginToggle(context),
     ];
   }
 }

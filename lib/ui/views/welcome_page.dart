@@ -18,10 +18,14 @@ class WelcomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.white),
               ),
-              child: Icon(Icons.graphic_eq, size: 70),
+              child: Icon(
+                Icons.bar_chart_rounded,
+                color: Colors.white,
+                size: 70,
+              ),
             ),
             Text(
-              'Tranquilo',
+              'Intranquilo',
               style: TextTheme.of(context).displayLarge?.copyWith(
                 color: Colors.white,
                 fontSize: 40,
