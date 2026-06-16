@@ -28,4 +28,24 @@ class Transaction implements Comparable<Transaction> {
     if (other.getId() < _id) return 1;
     return 0;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    Transaction otherTrans = other as Transaction;
+    try {
+      otherTrans.getUserEmail();
+      otherTrans.getId();
+    } catch (e) {
+      return false;
+    }
+    if (otherTrans.getUserEmail() == _userEmail && otherTrans.getId() == _id) {
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => _id.hashCode;
 }

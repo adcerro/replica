@@ -1,7 +1,7 @@
 import 'package:tester/domain/entities/user.dart';
 
 abstract class IUserLocalDataSource {
-  Future<User> getUser({required String email});
+  Future<User?> getUser({required String email});
 
   Future<void> addUser({required User user});
 

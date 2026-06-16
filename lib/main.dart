@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:tester/ui/views/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/welcome_info_page.dart';
 import 'package:tester/ui/views/welcome_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('settings');
+  await Hive.openBox('users');
+  await Hive.openBox('transactions');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

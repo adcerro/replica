@@ -1,11 +1,14 @@
 import 'package:tester/domain/entities/transaction.dart';
 
-abstract class IMoneyMovementLocalDatasource {
-  Future<List<Transaction>> getUserTransaction({required String user});
+abstract class ITransactionLocalDatasource {
+  Future<List<Transaction>?> getUserTransactions({required String userEmail});
 
   Future<void> addTransaction({required Transaction transaction});
 
   Future<void> updateTransaction({required Transaction transaction});
 
-  Future<void> deleteTransaction({required double id});
+  Future<void> deleteTransaction({
+    required String userEmail,
+    required double id,
+  });
 }
