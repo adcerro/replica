@@ -47,5 +47,5 @@ class Transaction implements Comparable<Transaction> {
   }
 
   @override
-  int get hashCode => _id.hashCode;
+  int get hashCode => _id.hashCode ^ _userEmail.hashCode;
 }
