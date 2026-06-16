@@ -59,4 +59,15 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     transactions[transactions.indexOf(transaction)] = transaction;
     _box.put(transaction.getUserEmail(), transactions);
   }
+
+  @override
+  Future<void> deleteAllUserTransactions({
+    required String userEmail,
+    required bool accountDeletion,
+  }) async {
+    if (!_box.keys.contains(userEmail)) {
+      throw Exception('User not found');
+    }
+    accountDeletion ? _box.delete(userEmail) : _box.put(userEmail, []);
+  }
 }

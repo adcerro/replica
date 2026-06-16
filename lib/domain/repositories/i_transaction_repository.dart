@@ -1,6 +1,6 @@
 import 'package:tester/domain/entities/transaction.dart';
 
-abstract class ITransactionLocalDatasource {
+abstract class ITransactionRepository {
   Future<List<Transaction>?> getUserTransactions({required String userEmail});
 
   Future<void> addTransaction({required Transaction transaction});
