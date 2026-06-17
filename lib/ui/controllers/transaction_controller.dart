@@ -6,7 +6,7 @@ import 'package:tester/domain/repositories/i_transaction_repository.dart';
 class TransactionController extends GetxController {
   final ITransactionRepository _transactionUseCase;
 
-  TransactionController(this._transactionUseCase);
+  TransactionController({required this._transactionUseCase});
 
   Future<List<Transaction>?> getUserTransactions({
     required String userEmail,

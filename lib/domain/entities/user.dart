@@ -4,7 +4,13 @@ class User {
   late String _password;
   late double _budget;
   late double _income;
-  User({this._name, required this._email});
+  User({
+    this._name,
+    required this._email,
+    required this._password,
+    required this._income,
+    required this._budget,
+  });
   String? getName() => _name;
   String getPassword() => _password;
   String getEmail() => _email;

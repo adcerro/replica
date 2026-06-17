@@ -4,6 +4,16 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:loggy/loggy.dart';
+import 'package:tester/data/datasources/local/i_transaction_local_datasource.dart';
+import 'package:tester/data/datasources/local/i_user_local_datasource.dart';
+import 'package:tester/data/datasources/local/transaction_local_datasource.dart';
+import 'package:tester/data/datasources/local/user_local_datasource.dart';
+import 'package:tester/data/repositories/transaction_repository.dart';
+import 'package:tester/data/repositories/user_repository.dart';
+import 'package:tester/domain/repositories/i_transaction_repository.dart';
+import 'package:tester/domain/repositories/i_user_repository.dart';
+import 'package:tester/ui/controllers/transaction_controller.dart';
+import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/views/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/welcome_info_page.dart';
@@ -19,9 +29,20 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((_) {
-    runApp(const MyApp());
-  });
+  ]);
+  //Users
+  Get.put<IUserLocalDataSource>(UserLocalDataSource());
+  Get.put<IUserRepository>(UserRepository(userLocalDataSource: Get.find()));
+  Get.put(UserController(userUseCase: Get.find()));
+
+  //Transactions
+  Get.put<ITransactionLocalDatasource>(TransactionLocalDatasource());
+  Get.put<ITransactionRepository>(
+    TransactionRepository(transactionLocalDataSource: Get.find()),
+  );
+  Get.put(TransactionController(transactionUseCase: Get.find()));
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

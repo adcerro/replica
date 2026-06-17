@@ -41,6 +41,7 @@ dependencies:
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.4
   loggy: ^2.0.3
+  bcrypt: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
