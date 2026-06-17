@@ -2,8 +2,8 @@ class User {
   late String? _name;
   final String _email;
   late String _password;
-  late double _budget;
   late double _income;
+  late double _budget;
   User({
     this._name,
     required this._email,
