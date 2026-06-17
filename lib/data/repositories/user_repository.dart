@@ -4,7 +4,7 @@ import 'package:tester/domain/repositories/i_user_repository.dart';
 
 class UserRepository implements IUserRepository {
   final IUserLocalDataSource _userLocalDataSource;
-  UserRepository(this._userLocalDataSource);
+  UserRepository({required this._userLocalDataSource});
   @override
   Future<void> addUser({required User user}) async =>
       await _userLocalDataSource.addUser(user: user);

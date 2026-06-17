@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
+import 'package:loggy/loggy.dart';
 import 'package:tester/ui/views/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/welcome_info_page.dart';
 import 'package:tester/ui/views/welcome_page.dart';
 
 void main() async {
+  Loggy.initLoggy(logPrinter: const PrettyPrinter(showColors: true));
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox('settings');
