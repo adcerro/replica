@@ -17,6 +17,7 @@ import 'package:tester/hive/hive_registrar.g.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/views/budget_page.dart';
+import 'package:tester/ui/views/confirmation_page.dart';
 import 'package:tester/ui/views/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/user_pages.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/start', page: () => StartPage()),
         GetPage(name: '/income', page: () => IncomePage()),
         GetPage(name: '/budget', page: () => BudgetPage()),
+        GetPage(name: '/confirm', page: () => ConfirmationPage()),
         GetPage(name: '/user', page: () => UserPages()),
       ],
     );
