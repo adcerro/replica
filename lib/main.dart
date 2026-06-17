@@ -13,11 +13,13 @@ import 'package:tester/data/repositories/user_repository.dart';
 import 'package:tester/domain/entities/user.dart';
 import 'package:tester/domain/repositories/i_transaction_repository.dart';
 import 'package:tester/domain/repositories/i_user_repository.dart';
+import 'package:tester/hive/hive_registrar.g.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/views/budget_page.dart';
 import 'package:tester/ui/views/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
+import 'package:tester/ui/views/user_pages.dart';
 import 'package:tester/ui/views/welcome_info_page.dart';
 import 'package:tester/ui/views/welcome_page.dart';
 
@@ -25,6 +27,11 @@ void main() async {
   Loggy.initLoggy(logPrinter: const PrettyPrinter(showColors: true));
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapters();
+
+  // Remove this line to keep thee created users.
+  await Hive.deleteBoxFromDisk('users');
+
   await Hive.openBox('settings');
   await Hive.openBox<User>('users');
   await Hive.openBox<List>('transactions');
@@ -70,6 +77,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/start', page: () => StartPage()),
         GetPage(name: '/income', page: () => IncomePage()),
         GetPage(name: '/budget', page: () => BudgetPage()),
+        GetPage(name: '/user', page: () => UserPages()),
       ],
     );
   }

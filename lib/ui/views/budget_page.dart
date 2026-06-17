@@ -76,24 +76,29 @@ class BudgetPage extends StatelessWidget {
                       context,
                     ).labelLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (userController.getLoggedUser() == null) {
-                      userController.guestUserMode(
+                      await userController.guestUserMode(
                         income: income,
                         budget: budgetFieldController.text.isEmpty
                             ? 0.0
                             : double.parse(budgetFieldController.text),
                       );
                     }
+                    Get.toNamed('/user');
                   },
                   child: Text('Continuar →'),
                 ),
                 const SizedBox(height: 10),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (userController.getLoggedUser() == null) {
-                      userController.guestUserMode(income: income, budget: 0.0);
+                      await userController.guestUserMode(
+                        income: income,
+                        budget: 0.0,
+                      );
                     }
+                    Get.toNamed('/user');
                   },
                   child: Text(
                     'Continuar sin presupuesto',

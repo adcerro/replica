@@ -11,7 +11,7 @@ class UserController extends GetxController {
 
   UserController({required this._userUseCase});
 
-  /// The password must be a String hashed by BCrypt.
+  /// The password param must be a normal String of the password.
   Future<User?> logUser({
     required String email,
     required String password,
@@ -39,10 +39,7 @@ class UserController extends GetxController {
     required double income,
     required double budget,
   }) async {
-    _loggedUser = await logUser(
-      email: 'guest@user',
-      password: BCrypt.hashpw('', BCrypt.gensalt()),
-    );
+    _loggedUser = await logUser(email: 'guest@user', password: 'guestpass');
     if (_loggedUser != null) {
       logInfo('Logged in as local user');
       return;
@@ -50,15 +47,12 @@ class UserController extends GetxController {
     await registerUser(
       user: User(
         email: 'guest@user',
-        password: '',
+        password: 'guestpass',
         income: income,
         budget: budget,
       ),
     );
-    _loggedUser = await logUser(
-      email: 'guest@user',
-      password: BCrypt.hashpw('', BCrypt.gensalt()),
-    );
+    _loggedUser = await logUser(email: 'guest@user', password: 'guestpass');
   }
 
   /// The user password will get
