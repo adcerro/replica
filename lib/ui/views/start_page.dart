@@ -53,7 +53,7 @@ class _StartPageState extends State<StartPage> {
   TextButton returnButton(BuildContext context) {
     return TextButton(
       onPressed: () {
-        Get.toNamed('/welcome_info');
+        Get.back();
       },
       child: Text(
         '← Volver',

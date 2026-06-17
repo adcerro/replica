@@ -79,7 +79,9 @@ class IncomePage extends StatelessWidget {
                     Get.toNamed(
                       '/budget',
                       arguments: {
-                        'income': incomeFieldController.text as double,
+                        'income': incomeFieldController.text.isEmpty
+                            ? 0
+                            : double.parse(incomeFieldController.text),
                       },
                     );
                   },
