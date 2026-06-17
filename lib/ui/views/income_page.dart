@@ -80,7 +80,7 @@ class IncomePage extends StatelessWidget {
                       '/budget',
                       arguments: {
                         'income': incomeFieldController.text.isEmpty
-                            ? 0
+                            ? 0.0
                             : double.parse(incomeFieldController.text),
                       },
                     );
@@ -91,7 +91,7 @@ class IncomePage extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     logInfo('Income set as 0');
-                    Get.toNamed('/budget', arguments: {'income': 0});
+                    Get.toNamed('/budget', arguments: {'income': 0.0});
                   },
                   child: Text(
                     'Continuar sin ingresos',

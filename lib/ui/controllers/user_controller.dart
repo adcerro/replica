@@ -47,7 +47,7 @@ class UserController extends GetxController {
       logInfo('Logged in as local user');
       return;
     }
-    registerUser(
+    await registerUser(
       user: User(
         email: 'guest@user',
         password: '',
@@ -71,7 +71,7 @@ class UserController extends GetxController {
       logInfo('Registered user with email: ${user.getEmail()}');
       return true;
     } catch (e) {
-      logError('Error registering user', e);
+      logError('Error registering user: ${e.toString()}');
       return false;
     }
   }
@@ -89,7 +89,7 @@ class UserController extends GetxController {
       _loggedUser = user;
       return true;
     } catch (e) {
-      logError('Error updating user', e);
+      logError('Error updating user: ${e.toString()}');
       return false;
     }
   }
@@ -106,7 +106,7 @@ class UserController extends GetxController {
       _loggedUser = null;
       return true;
     } catch (e) {
-      logError('Error deleting user', e);
+      logError('Error deleting user: ${e.toString()}');
       return false;
     }
   }

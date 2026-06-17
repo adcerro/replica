@@ -81,7 +81,7 @@ class BudgetPage extends StatelessWidget {
                       userController.guestUserMode(
                         income: income,
                         budget: budgetFieldController.text.isEmpty
-                            ? 0
+                            ? 0.0
                             : double.parse(budgetFieldController.text),
                       );
                     }
@@ -92,7 +92,7 @@ class BudgetPage extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     if (userController.getLoggedUser() == null) {
-                      userController.guestUserMode(income: income, budget: 0);
+                      userController.guestUserMode(income: income, budget: 0.0);
                     }
                   },
                   child: Text(
@@ -103,7 +103,9 @@ class BudgetPage extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.back();
+                  },
                   child: Text(
                     '← Volver',
                     style: TextTheme.of(context).bodyMedium?.copyWith(
