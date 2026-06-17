@@ -10,10 +10,12 @@ import 'package:tester/data/datasources/local/transaction_local_datasource.dart'
 import 'package:tester/data/datasources/local/user_local_datasource.dart';
 import 'package:tester/data/repositories/transaction_repository.dart';
 import 'package:tester/data/repositories/user_repository.dart';
+import 'package:tester/domain/entities/user.dart';
 import 'package:tester/domain/repositories/i_transaction_repository.dart';
 import 'package:tester/domain/repositories/i_user_repository.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
+import 'package:tester/ui/views/budget_page.dart';
 import 'package:tester/ui/views/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/welcome_info_page.dart';
@@ -24,8 +26,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox('settings');
-  await Hive.openBox('users');
-  await Hive.openBox('transactions');
+  await Hive.openBox<User>('users');
+  await Hive.openBox<List>('transactions');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -67,6 +69,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/welcome_info', page: () => WelcomeInfoPage()),
         GetPage(name: '/start', page: () => StartPage()),
         GetPage(name: '/income', page: () => IncomePage()),
+        GetPage(name: '/budget', page: () => BudgetPage()),
       ],
     );
   }

@@ -3,13 +3,15 @@ import 'package:tester/data/datasources/local/i_transaction_local_datasource.dar
 import 'package:tester/domain/entities/transaction.dart';
 
 class TransactionLocalDatasource implements ITransactionLocalDatasource {
-  final _box = Hive.box<List<Transaction>>('transactions');
+  final _box = Hive.box<List>('transactions');
   @override
   Future<void> addTransaction({required Transaction transaction}) async {
-    List<Transaction>? transactions = _box.get(transaction.getUserEmail());
-    if (transactions == null) {
+    if (!_box.keys.contains(transaction.getUserEmail())) {
       throw Exception('User not found');
     }
+    List<Transaction>? transactions = List<Transaction>.from(
+      _box.get(transaction.getUserEmail()) ?? [],
+    );
     if (transactions.isEmpty) {
       _box.put(transaction.getUserEmail(), [transaction]);
     } else {
@@ -24,9 +26,14 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     required String userEmail,
     required double id,
   }) async {
-    List<Transaction>? transactions = _box.get(userEmail);
-    if (transactions == null || transactions.isEmpty) {
-      throw Exception('User/Transactions not found');
+    if (!_box.keys.contains(userEmail)) {
+      throw Exception('User not found');
+    }
+    List<Transaction>? transactions = List<Transaction>.from(
+      _box.get(userEmail) ?? [],
+    );
+    if (transactions.isEmpty) {
+      throw Exception('Transactions not found');
     }
     Transaction trans = Transaction(id: id, userEmail: userEmail, value: 0);
     if (!transactions.contains(trans)) {
@@ -40,18 +47,22 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
   Future<List<Transaction>?> getUserTransactions({
     required String userEmail,
   }) async {
-    List<Transaction>? transactions = _box.get(userEmail);
-    if (transactions == null) {
+    if (!_box.keys.contains(userEmail)) {
       throw Exception('User not found');
     }
-    return transactions;
+    return List<Transaction>.from(_box.get(userEmail) ?? []);
   }
 
   @override
   Future<void> updateTransaction({required Transaction transaction}) async {
-    List<Transaction>? transactions = _box.get(transaction.getUserEmail());
-    if (transactions == null || transactions.isEmpty) {
-      throw Exception('User/Transactions not found');
+    if (!_box.keys.contains(transaction.getUserEmail())) {
+      throw Exception('User not found');
+    }
+    List<Transaction>? transactions = List<Transaction>.from(
+      _box.get(transaction.getUserEmail()) ?? [],
+    );
+    if (transactions.isEmpty) {
+      throw Exception('Transactions not found');
     }
     if (!transactions.contains(transaction)) {
       throw Exception('Transaction ID not found');

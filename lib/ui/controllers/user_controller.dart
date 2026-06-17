@@ -26,7 +26,11 @@ class UserController extends GetxController {
     return null;
   }
 
-  Future<void> logOut() async {
+  User? getLoggedUser() {
+    return _loggedUser;
+  }
+
+  void logOut() {
     _loggedUser = null;
     logInfo('Logged out');
   }
@@ -57,6 +61,7 @@ class UserController extends GetxController {
     );
   }
 
+  /// The user password will get
   Future<bool> registerUser({required User user}) async {
     try {
       user.setPassword(
@@ -74,6 +79,10 @@ class UserController extends GetxController {
   /// Expects password to be hashed in the received user
   /// as well as the user being updated being the logged one
   Future<bool> updateUser({required User user}) async {
+    if (_loggedUser == null) {
+      logError('No logged user to update.');
+      return false;
+    }
     try {
       await _userUseCase.updateUser(user: user);
       logInfo('Updated user with email: ${user.getEmail()}');
@@ -87,6 +96,10 @@ class UserController extends GetxController {
 
   /// The logged user would be the deleted one.
   Future<bool> deleteUser({required String email}) async {
+    if (_loggedUser == null || _loggedUser!.getEmail() != email) {
+      logError('logged user Unauthorized');
+      return false;
+    }
     try {
       await _userUseCase.deleteUser(email: email);
       logInfo('Deleted user with email: $email');

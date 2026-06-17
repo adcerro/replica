@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class CustomTextField extends StatelessWidget {
@@ -12,10 +13,16 @@ class CustomTextField extends StatelessWidget {
     borderRadius: BorderRadius.circular(12),
   );
   TextAlign textAlign;
+  TextEditingController? controller;
+  TextInputType? keyboardType;
+  List<TextInputFormatter>? inputFormatters;
   CustomTextField({
     super.key,
     required this.hintText,
     this.textAlign = TextAlign.start,
+    this.controller,
+    this.keyboardType,
+    this.inputFormatters,
   });
   @override
   Widget build(BuildContext context) {
@@ -27,6 +34,9 @@ class CustomTextField extends StatelessWidget {
       context,
     ).labelSmall?.copyWith(color: Colors.white, fontSize: 14);
     return TextField(
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      controller: controller,
       textAlign: textAlign,
       cursorColor: Colors.white,
       style: inputTextStyle,

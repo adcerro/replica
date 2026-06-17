@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/route_manager.dart';
-import 'package:loggy/loggy.dart';
 import 'package:tester/ui/widgets/custom_text_field.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 
-class IncomePage extends StatelessWidget {
-  const IncomePage({super.key});
+class BudgetPage extends StatelessWidget {
+  const BudgetPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final incomeFieldController = TextEditingController();
     return Scaffold(
       backgroundColor: Color(0xFF0D6259),
       body: GradientBackground(
@@ -56,9 +53,6 @@ class IncomePage extends StatelessWidget {
                   padding: EdgeInsetsGeometry.only(top: 15, bottom: 15),
                   child: Form(
                     child: CustomTextField(
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      keyboardType: TextInputType.number,
-                      controller: incomeFieldController,
                       hintText: '2000000',
                       textAlign: TextAlign.center,
                     ),
@@ -74,23 +68,12 @@ class IncomePage extends StatelessWidget {
                       context,
                     ).labelLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () {
-                    logInfo('Income set as ${incomeFieldController.text}');
-                    Get.toNamed(
-                      '/budget',
-                      arguments: {
-                        'income': incomeFieldController.text as double,
-                      },
-                    );
-                  },
+                  onPressed: () {},
                   child: Text('Continuar →'),
                 ),
                 const SizedBox(height: 10),
                 TextButton(
-                  onPressed: () {
-                    logInfo('Income set as 0');
-                    Get.toNamed('/budget', arguments: {'income': 0});
-                  },
+                  onPressed: () {},
                   child: Text(
                     'Continuar sin ingresos',
                     style: TextTheme.of(context).bodyMedium?.copyWith(
