@@ -123,7 +123,7 @@ class ConfirmationPage extends StatelessWidget {
                         budget: budget,
                       );
                     }
-                    Get.toNamed('/user');
+                    Get.offAllNamed('/user');
                   },
                   child: Text('Confirmar y empezar ✓'),
                 ),

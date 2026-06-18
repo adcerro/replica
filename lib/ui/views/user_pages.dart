@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tester/ui/views/user_info_page.dart';
 import 'package:tester/ui/views/user_main_page.dart';
 
@@ -20,9 +21,28 @@ class _UserPagesState extends State<UserPages> {
         _ => UserMainPage(),
       },
       bottomNavigationBar: NavigationBar(
+        indicatorColor: Theme.of(context).focusColor,
         destinations: [
-          NavigationDestination(icon: Icon(Icons.abc), label: ''),
-          NavigationDestination(icon: Icon(Icons.person), label: ''),
+          NavigationDestination(
+            icon: Icon(Icons.house_outlined),
+            label: 'Inicio',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book),
+            label: 'Movimientos',
+          ),
+          NavigationDestination(
+            icon: FaIcon(FontAwesomeIcons.moneyBill),
+            label: 'Presupuesto',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.bar_chart_outlined),
+            label: 'Análisis',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_2_outlined),
+            label: 'Perfil',
+          ),
         ],
         selectedIndex: _selectedIndex,
         onDestinationSelected: (value) {
