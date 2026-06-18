@@ -14,33 +14,56 @@ class _UserPagesState extends State<UserPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Color.fromARGB(255, 248, 250, 252),
       body: switch (_selectedIndex) {
         0 => UserMainPage(),
-        1 => UserInfoPage(),
+        4 => UserInfoPage(),
         _ => UserMainPage(),
       },
       bottomNavigationBar: NavigationBar(
-        indicatorColor: Theme.of(context).focusColor,
+        backgroundColor: const Color.fromARGB(
+          255,
+          252,
+          236,
+          236,
+        ).withValues(alpha: 0.96),
+        indicatorColor: Theme.of(context).primaryColor,
+        indicatorShape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.circular(12),
+        ),
+        labelTextStyle: WidgetStatePropertyAll(
+          TextTheme.of(context).labelSmall?.copyWith(
+            fontSize: MediaQuery.sizeOf(context).width < 500 ? 9 : 12,
+          ),
+        ),
+
         destinations: [
           NavigationDestination(
-            icon: Icon(Icons.house_outlined),
+            icon: FaIcon(FontAwesomeIcons.house),
+            selectedIcon: FaIcon(FontAwesomeIcons.house, color: Colors.white),
             label: 'Inicio',
           ),
           NavigationDestination(
-            icon: Icon(Icons.menu_book),
+            icon: FaIcon(FontAwesomeIcons.list),
+            selectedIcon: FaIcon(FontAwesomeIcons.list, color: Colors.white),
             label: 'Movimientos',
           ),
           NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.moneyBill),
+            icon: FaIcon(FontAwesomeIcons.moneyBills),
+            selectedIcon: FaIcon(
+              FontAwesomeIcons.moneyBills,
+              color: Colors.white,
+            ),
             label: 'Presupuesto',
           ),
           NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined),
+            icon: Icon(Icons.signal_cellular_alt),
+            selectedIcon: Icon(Icons.signal_cellular_alt, color: Colors.white),
             label: 'Análisis',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_2_outlined),
+            icon: Icon(Icons.person),
+            selectedIcon: Icon(Icons.person, color: Colors.white),
             label: 'Perfil',
           ),
         ],
