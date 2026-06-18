@@ -6,6 +6,52 @@ import 'package:tester/ui/widgets/gradient_bakground.dart';
 class ConfirmationPage extends StatelessWidget {
   const ConfirmationPage({super.key});
 
+  Widget confirmationContainer(
+    BuildContext context,
+    double income,
+    double budget,
+  ) {
+    TextStyle? leftStyle = TextTheme.of(
+      context,
+    ).bodySmall?.copyWith(color: Colors.white70);
+    TextStyle? rightStyle = TextTheme.of(
+      context,
+    ).bodyLarge?.copyWith(color: Colors.white);
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white10,
+        border: Border.all(width: 15, color: Colors.transparent),
+      ),
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      child: Row(
+        mainAxisAlignment: .spaceBetween,
+        spacing: 10,
+        children: [
+          Column(
+            spacing: 10,
+            crossAxisAlignment: .start,
+            children: [
+              Text('Ingresos mensuales:', style: leftStyle),
+              Text('Presupuesto:', style: leftStyle),
+            ],
+          ),
+          Expanded(
+            child: (Column(
+              spacing: 10,
+              crossAxisAlignment: .end,
+              children: [
+                Text('\$ $income', style: rightStyle),
+                Text('\$ $budget', style: rightStyle),
+              ],
+            )),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double income = Get.arguments['income'];
@@ -53,8 +99,13 @@ class ConfirmationPage extends StatelessWidget {
                     color: Colors.white.withValues(alpha: 0.85),
                   ),
                 ),
-                Text(''),
-                Container(),
+                Text(
+                  'Verifica que todo sea correcto antes de empezar',
+                  style: TextTheme.of(context).bodySmall?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.75),
+                  ),
+                ),
+                confirmationContainer(context, income, budget),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(320, 56),
@@ -74,7 +125,7 @@ class ConfirmationPage extends StatelessWidget {
                     }
                     Get.toNamed('/user');
                   },
-                  child: Text('Continuar →'),
+                  child: Text('Confirmar y empezar ✓'),
                 ),
                 const SizedBox(height: 10),
                 TextButton(
