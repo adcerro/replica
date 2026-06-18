@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:tester/ui/controllers/user_controller.dart';
+import 'package:loggy/loggy.dart';
 import 'package:tester/ui/widgets/custom_text_field.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 
@@ -10,7 +10,6 @@ class BudgetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double income = Get.arguments['income'];
-    UserController userController = Get.find();
     final budgetFieldController = TextEditingController();
     return Scaffold(
       backgroundColor: Color(0xFF0D6259),
@@ -76,29 +75,28 @@ class BudgetPage extends StatelessWidget {
                       context,
                     ).labelLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () async {
-                    if (userController.getLoggedUser() == null) {
-                      await userController.guestUserMode(
-                        income: income,
-                        budget: budgetFieldController.text.isEmpty
+                  onPressed: () {
+                    logInfo('Budget set as ${budgetFieldController.text}');
+                    Get.toNamed(
+                      '/confirm',
+                      arguments: {
+                        'income': income,
+                        'budget': budgetFieldController.text.isEmpty
                             ? 0.0
                             : double.parse(budgetFieldController.text),
-                      );
-                    }
-                    Get.toNamed('/user');
+                      },
+                    );
                   },
                   child: Text('Continuar →'),
                 ),
                 const SizedBox(height: 10),
                 TextButton(
-                  onPressed: () async {
-                    if (userController.getLoggedUser() == null) {
-                      await userController.guestUserMode(
-                        income: income,
-                        budget: 0.0,
-                      );
-                    }
-                    Get.toNamed('/user');
+                  onPressed: () {
+                    logInfo('Budget set as 0');
+                    Get.toNamed(
+                      '/confirm',
+                      arguments: {'income': income, 'budget': 0.0},
+                    );
                   },
                   child: Text(
                     'Continuar sin presupuesto',

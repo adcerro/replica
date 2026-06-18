@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tester/ui/views/user_info_page.dart';
 import 'package:tester/ui/views/user_main_page.dart';
 

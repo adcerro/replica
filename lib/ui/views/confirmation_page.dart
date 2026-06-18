@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 
 class ConfirmationPage extends StatelessWidget {
@@ -7,6 +8,9 @@ class ConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double income = Get.arguments['income'];
+    double budget = Get.arguments['budget'];
+    UserController userController = Get.find();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: GradientBackground(
@@ -62,36 +66,17 @@ class ConfirmationPage extends StatelessWidget {
                     ).labelLarge?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
-                    //if (userController.getLoggedUser() == null) {
-                    //  await userController.guestUserMode(
-                    //    income: income,
-                    //    budget: budgetFieldController.text.isEmpty
-                    //        ? 0.0
-                    //        : double.parse(budgetFieldController.text),
-                    //  );
-                    //}
+                    if (userController.getLoggedUser() == null) {
+                      await userController.guestUserMode(
+                        income: income,
+                        budget: budget,
+                      );
+                    }
                     Get.toNamed('/user');
                   },
                   child: Text('Continuar →'),
                 ),
                 const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () async {
-                    //if (userController.getLoggedUser() == null) {
-                    //  await userController.guestUserMode(
-                    //    income: income,
-                    //    budget: 0.0,
-                    //  );
-                    //}
-                    Get.toNamed('/user');
-                  },
-                  child: Text(
-                    'Continuar sin presupuesto',
-                    style: TextTheme.of(context).bodyMedium?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.8),
-                    ),
-                  ),
-                ),
                 TextButton(
                   onPressed: () {
                     Get.back();
