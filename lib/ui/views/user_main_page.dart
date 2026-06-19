@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
+import 'package:tester/ui/widgets/pocket_card.dart';
 
 class UserMainPage extends StatefulWidget {
   const UserMainPage({super.key});
@@ -45,6 +46,9 @@ class _UserMainPageState extends State<UserMainPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_userController.getLoggedUser() == null) {
+      Get.offAllNamed('/start');
+    }
     TextStyle? littleTextStyle = TextTheme.of(
       context,
     ).bodyMedium?.copyWith(color: Colors.white.withValues(alpha: 0.8));
@@ -111,19 +115,64 @@ class _UserMainPageState extends State<UserMainPage> {
                     'Disponible para gastar de tu presupuesto',
                     style: littleTextStyle,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    height: 15,
+                  LinearProgressIndicator(
+                    value: 0,
+                    minHeight: 15,
+                    backgroundColor: Colors.white.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ],
               ),
             ),
           ),
         ),
-        SliverFloatingHeader(child: Text('Bolsillos')),
+        SliverToBoxAdapter(child: SizedBox(height: 10)),
+        SliverFloatingHeader(
+          child: Row(
+            mainAxisSize: .min,
+            children: [
+              Container(
+                height: 15,
+                width: 5,
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              Text(
+                'Bolsillos',
+                style: TextTheme.of(context).labelLarge?.copyWith(
+                  color: Color.fromARGB(150, 100, 116, 139),
+                  fontWeight: .bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: kElevationToShadow[1],
+            ),
+            child: Column(
+              children: [
+                PocketCard(
+                  foregroundColor: Colors.blue,
+                  emojiIcon: '🎮',
+                  title: 'Recreación',
+                  spent: 0,
+                  budget: 0,
+                  completion: 0,
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
