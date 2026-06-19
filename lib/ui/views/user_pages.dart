@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tester/ui/views/user_info_page.dart';
 import 'package:tester/ui/views/user_main_page.dart';
+import 'package:tester/ui/views/user_trans_page.dart';
 
 class UserPages extends StatefulWidget {
   const UserPages({super.key});
@@ -17,16 +18,13 @@ class _UserPagesState extends State<UserPages> {
       backgroundColor: Color.fromARGB(255, 248, 250, 252),
       body: switch (_selectedIndex) {
         0 => UserMainPage(),
+        1 => UserTransactionPage(),
         4 => UserInfoPage(),
         _ => UserMainPage(),
       },
       bottomNavigationBar: NavigationBar(
-        backgroundColor: const Color.fromARGB(
-          255,
-          252,
-          236,
-          236,
-        ).withValues(alpha: 0.96),
+        shadowColor: Color.fromARGB(15, 15, 23, 42),
+        backgroundColor: Colors.white.withValues(alpha: 0.96),
         indicatorColor: Theme.of(context).primaryColor,
         indicatorShape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(12),

@@ -7,6 +7,7 @@ class PocketCard extends StatelessWidget {
   final double spent;
   final double budget;
   final double completion;
+  final bool hideAmmounts;
   const PocketCard({
     super.key,
     required this.foregroundColor,
@@ -15,6 +16,7 @@ class PocketCard extends StatelessWidget {
     required this.spent,
     required this.budget,
     required this.completion,
+    this.hideAmmounts = false,
   });
 
   @override
@@ -56,11 +58,11 @@ class PocketCard extends StatelessWidget {
           Text.rich(
             style: TextTheme.of(context).bodyMedium,
             TextSpan(
-              text: '\$ $spent',
+              text: hideAmmounts ? '****' : '\$ $spent',
               style: TextStyle(fontWeight: .bold),
               children: [
                 TextSpan(
-                  text: ' / \$ $budget',
+                  text: hideAmmounts ? '' : ' / \$ $budget',
                   style: TextStyle(fontWeight: .normal),
                 ),
               ],

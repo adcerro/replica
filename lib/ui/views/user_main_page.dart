@@ -168,6 +168,7 @@ class _UserMainPageState extends State<UserMainPage> {
                   spent: 0,
                   budget: 0,
                   completion: 0,
+                  hideAmmounts: hideNumbers,
                 ),
               ],
             ),
