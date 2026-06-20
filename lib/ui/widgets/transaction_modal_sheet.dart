@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tester/ui/widgets/category_menu_map.dart';
@@ -11,6 +12,8 @@ class TransactionModalSheet extends StatefulWidget {
 class _TransactionModalSheetState extends State<TransactionModalSheet> {
   Color indicatorColor = Color.fromARGB(255, 100, 116, 139);
   bool incomeLabelBackground = true;
+  DateTime today = DateTime.now().toLocal();
+  DateTime? pickedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -87,18 +90,50 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                 ),
               ],
             ),
-            InputDecorationTheme(
-              focusedBorder: focusedBorder,
-              enabledBorder: enabledBorder,
-              filled: true,
-              fillColor: slateColor.withValues(alpha: .05),
-              child: InputDatePickerFormField(
-                fieldLabelText: '',
-                initialDate: DateTime.now().toLocal(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
-              ),
-            ),
+
+            defaultTargetPlatform == TargetPlatform.android ||
+                    defaultTargetPlatform == TargetPlatform.iOS
+                ? ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: slateColor.withValues(alpha: .05),
+                      foregroundColor: slateColor,
+                      fixedSize: Size(420, 20),
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: .circular(14),
+                        side: enabledBorder.borderSide,
+                      ),
+                    ),
+                    onPressed: () async {
+                      pickedDate = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: .spaceBetween,
+                      children: [
+                        Text(
+                          '${today.day}/${today.month}/${today.year}',
+                          textAlign: .left,
+                        ),
+                        Icon(Icons.calendar_month),
+                      ],
+                    ),
+                  )
+                : InputDecorationTheme(
+                    focusedBorder: focusedBorder,
+                    enabledBorder: enabledBorder,
+                    filled: true,
+                    fillColor: slateColor.withValues(alpha: .05),
+                    child: InputDatePickerFormField(
+                      fieldLabelText: '',
+                      initialDate: DateTime.now().toLocal(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    ),
+                  ),
             TabBar(
               onTap: (value) {
                 if (value != 0) {
@@ -155,22 +190,28 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
               ],
             ),
             SizedBox(
-              height: 110,
+              height: 130,
               child: TabBarView(
                 children: [
                   Column(
                     children: [
                       DropdownMenuFormField<String>(
+                        hintText: 'Categoria (Opcional)',
+                        textStyle: TextTheme.of(
+                          context,
+                        ).bodySmall?.copyWith(color: slateColor),
                         inputDecorationTheme: InputDecorationTheme(
                           enabledBorder: enabledBorder,
                           focusedBorder: focusedBorder,
                           filled: true,
                           fillColor: slateColor.withValues(alpha: 0.1),
+                          hintStyle: TextTheme.of(
+                            context,
+                          ).bodySmall?.copyWith(color: slateColor),
                         ),
                         width: 400,
                         showTrailingIcon: false,
                         selectOnly: true,
-
                         dropdownMenuEntries: List.generate(
                           10,
                           ((index) => DropdownMenuEntry(
