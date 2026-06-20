@@ -190,7 +190,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
               ],
             ),
             SizedBox(
-              height: 130,
+              height: MediaQuery.sizeOf(context).height > 700 ? 130 : 110,
               child: TabBarView(
                 children: [
                   Column(
