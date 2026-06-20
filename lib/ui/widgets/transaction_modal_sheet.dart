@@ -72,6 +72,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                     ).bodyMedium?.copyWith(color: slateColor),
                     filled: true,
                     fillColor: slateColor.withValues(alpha: .05),
+                    focusColor: Colors.white,
                   ),
                   maxLines: 2,
                 ),
@@ -127,6 +128,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                     enabledBorder: enabledBorder,
                     filled: true,
                     fillColor: slateColor.withValues(alpha: .05),
+                    focusColor: Colors.white,
                     child: InputDatePickerFormField(
                       fieldLabelText: '',
                       initialDate: DateTime.now().toLocal(),

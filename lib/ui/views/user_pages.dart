@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tester/ui/views/user_budget_page.dart';
 import 'package:tester/ui/views/user_info_page.dart';
 import 'package:tester/ui/views/user_main_page.dart';
 import 'package:tester/ui/views/user_trans_page.dart';
@@ -19,6 +20,7 @@ class _UserPagesState extends State<UserPages> {
       body: switch (_selectedIndex) {
         0 => UserMainPage(),
         1 => UserTransactionPage(),
+        2 => UserBudgetPage(),
         4 => UserInfoPage(),
         _ => UserMainPage(),
       },

@@ -16,13 +16,13 @@ import 'package:tester/domain/repositories/i_user_repository.dart';
 import 'package:tester/hive/hive_registrar.g.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
-import 'package:tester/ui/views/budget_page.dart';
-import 'package:tester/ui/views/confirmation_page.dart';
-import 'package:tester/ui/views/income_page.dart';
+import 'package:tester/ui/views/welcome_pages/budget_page.dart';
+import 'package:tester/ui/views/welcome_pages/confirmation_page.dart';
+import 'package:tester/ui/views/welcome_pages/income_page.dart';
 import 'package:tester/ui/views/start_page.dart';
 import 'package:tester/ui/views/user_pages.dart';
-import 'package:tester/ui/views/welcome_info_page.dart';
-import 'package:tester/ui/views/welcome_page.dart';
+import 'package:tester/ui/views/welcome_pages/welcome_info_page.dart';
+import 'package:tester/ui/views/welcome_pages/welcome_page.dart';
 
 void main() async {
   Loggy.initLoggy(logPrinter: const PrettyPrinter(showColors: true));
