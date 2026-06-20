@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
-
+import 'package:tester/ui/widgets/transaction_modal_sheet.dart';
 import '../../domain/entities/user.dart';
 import '../controllers/user_controller.dart';
 
@@ -15,8 +15,13 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
   final UserController _userController = Get.find();
   final TransactionController _transactionController = Get.find();
   late User? user = _userController.getLoggedUser();
+  final Color slateColor = Color.fromARGB(150, 100, 116, 139);
+
   void addTransaction() {
-    showModalBottomSheet(context: context, builder: (context) => Container());
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => TransactionModalSheet(),
+    );
   }
 
   @override
@@ -38,9 +43,9 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
                 RichText(
                   text: TextSpan(
                     text: 'REGISTRO\n',
-                    style: TextTheme.of(context).labelLarge?.copyWith(
-                      color: Color.fromARGB(150, 100, 116, 139),
-                    ),
+                    style: TextTheme.of(
+                      context,
+                    ).labelLarge?.copyWith(color: slateColor),
                     children: [
                       TextSpan(
                         text: 'Movimientos',
@@ -110,13 +115,21 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
                       ),
                       Text(
                         'Aún no hay movimientos',
-                        style: TextTheme.of(context).labelLarge,
+                        style: TextTheme.of(
+                          context,
+                        ).labelLarge?.copyWith(color: slateColor),
                       ),
                       TextButton(
                         onPressed: () {
                           addTransaction();
                         },
-                        child: Text('Agregar el primero'),
+                        child: Text(
+                          'Agregar el primero',
+                          style: TextTheme.of(context).labelLarge?.copyWith(
+                            fontWeight: .bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                       ),
                     ],
                   ),

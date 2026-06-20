@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// ignore: must_be_immutable
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final enabledBorder = OutlineInputBorder(
@@ -12,10 +11,10 @@ class CustomTextField extends StatelessWidget {
     borderSide: BorderSide(color: Colors.white),
     borderRadius: BorderRadius.circular(12),
   );
-  TextAlign textAlign;
-  TextEditingController? controller;
-  TextInputType? keyboardType;
-  List<TextInputFormatter>? inputFormatters;
+  final TextAlign textAlign;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   CustomTextField({
     super.key,
     required this.hintText,
