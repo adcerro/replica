@@ -91,37 +91,40 @@ class _UserMainPageState extends State<UserMainPage> {
               ),
             ],
           ),
-          flexibleSpace: GradientBackground(
-            child: Container(
-              margin: EdgeInsets.fromLTRB(15, 16, 15, 25),
-              child: Column(
-                spacing: 20,
-                mainAxisAlignment: .end,
-                crossAxisAlignment: .start,
-                children: [
-                  Text(dateFormat(), style: littleTextStyle),
-                  Spacer(),
-                  Text('Vas bien', style: littleTextStyle),
-                  Text(
-                    hideNumbers
-                        ? '****'
-                        : '\$ ${_userController.getLoggedUser()?.getBudget().toString()}',
-                    style: TextTheme.of(context).displayLarge?.copyWith(
-                      fontWeight: .bold,
-                      color: Colors.white,
+          flexibleSpace: ClipRRect(
+            borderRadius: .circular(14),
+            child: GradientBackground(
+              child: Container(
+                margin: EdgeInsets.fromLTRB(15, 16, 15, 25),
+                child: Column(
+                  spacing: 20,
+                  mainAxisAlignment: .end,
+                  crossAxisAlignment: .start,
+                  children: [
+                    Text(dateFormat(), style: littleTextStyle),
+                    Spacer(),
+                    Text('Vas bien', style: littleTextStyle),
+                    Text(
+                      hideNumbers
+                          ? '****'
+                          : '\$ ${_userController.getLoggedUser()?.getBudget().toString()}',
+                      style: TextTheme.of(context).displayLarge?.copyWith(
+                        fontWeight: .bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Disponible para gastar de tu presupuesto',
-                    style: littleTextStyle,
-                  ),
-                  LinearProgressIndicator(
-                    value: 0,
-                    minHeight: 15,
-                    backgroundColor: Colors.white.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ],
+                    Text(
+                      'Disponible para gastar de tu presupuesto',
+                      style: littleTextStyle,
+                    ),
+                    LinearProgressIndicator(
+                      value: 0,
+                      minHeight: 15,
+                      backgroundColor: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

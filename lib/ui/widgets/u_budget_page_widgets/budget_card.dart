@@ -47,6 +47,7 @@ class BudgetCard extends StatelessWidget {
           mainAxisAlignment: .spaceEvenly,
           children: [
             RichText(
+              textAlign: .center,
               text: TextSpan(
                 text: 'PRESUPUESTO\n',
                 style: TextTheme.of(
@@ -63,6 +64,7 @@ class BudgetCard extends StatelessWidget {
               ),
             ),
             RichText(
+              textAlign: .center,
               text: TextSpan(
                 text: 'GASTADO\n',
                 style: TextTheme.of(

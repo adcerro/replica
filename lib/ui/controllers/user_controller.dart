@@ -46,6 +46,7 @@ class UserController extends GetxController {
     }
     await registerUser(
       user: User(
+        name: 'guest',
         email: 'guest@user',
         password: 'guestpass',
         income: income,
