@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
+import 'package:tester/ui/widgets/u_info_page_widgets/profile_expansion_tile.dart';
 
+import '../../domain/entities/user.dart';
 import '../widgets/gradient_bakground.dart';
 
 class UserInfoPage extends StatefulWidget {
@@ -13,8 +15,10 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> {
   final UserController _userController = Get.find();
   final Color slateColor = const Color.fromARGB(150, 100, 116, 139);
+  bool editUser = false;
   @override
   Widget build(BuildContext context) {
+    User? user = _userController.getLoggedUser();
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -39,15 +43,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    _userController.getLoggedUser()!.getName()!.capitalize ??
-                        '',
+                    user!.getName()!.capitalize ?? '',
                     style: TextTheme.of(context).titleMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: .bold,
                     ),
                   ),
                   Text(
-                    _userController.getLoggedUser()!.getEmail(),
+                    user.getEmail(),
                     style: TextTheme.of(
                       context,
                     ).titleSmall?.copyWith(color: Colors.white70),
@@ -59,30 +62,19 @@ class _UserInfoPageState extends State<UserInfoPage> {
         ),
         SliverToBoxAdapter(child: SizedBox(height: 15)),
         SliverToBoxAdapter(
-          child: Padding(
-            padding: .all(10),
-            child: ExpansionTile(
-              title: Text('Mi perfil'),
-              subtitle: Text('Haz clic para expandir/contraer'),
-              collapsedBackgroundColor: Colors.white,
-              collapsedShape: RoundedRectangleBorder(
-                side: BorderSide(color: slateColor.withValues(alpha: .2)),
-                borderRadius: .circular(14),
-              ),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: slateColor.withValues(alpha: .2)),
-                borderRadius: .circular(14),
-              ),
-              leading: Container(
-                decoration: BoxDecoration(
-                  color: slateColor.withValues(alpha: 0.1),
-                  borderRadius: .circular(12),
-                ),
-                padding: .all(5),
-                child: Text('👤', style: TextTheme.of(context).headlineSmall),
-              ),
-              children: [Text('a'), Text('b')],
-            ),
+          child: ProfileExpansionTile(
+            userName: user.getName()!.capitalize ?? '',
+            userEmail: user.getEmail(),
+            userPhone: '+57 --- --- ----',
+            userCountry: 'Colombia',
+            editMode: editUser,
+            onEditClicked: () => setState(() => editUser = true),
+            onCancelClicked: () => setState(() => editUser = false),
+            onSaveClicked: (value) {
+              setState(() {
+                editUser = false;
+              });
+            },
           ),
         ),
       ],
