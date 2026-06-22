@@ -44,6 +44,7 @@ dependencies:
   bcrypt: ^1.2.0
   hive_ce_generator: ^1.11.2
   build_runner: ^2.15.0
+  dotted_border: ^3.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
