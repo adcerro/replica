@@ -28,7 +28,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       slivers: [
         SliverAppBar(
           floating: true,
-          collapsedHeight: 190,
+          collapsedHeight: 200,
           flexibleSpace: GradientBackground(
             child: Container(
               margin: EdgeInsets.fromLTRB(15, 16, 15, 25),
