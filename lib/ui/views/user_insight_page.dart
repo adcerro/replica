@@ -42,7 +42,7 @@ class UserInsightPage extends StatelessWidget {
         ),
         FutureBuilder(
           future: _transactionController.getUserTransactions(
-            userEmail: user!.getEmail(),
+            userEmail: user!.email,
           ),
           builder: ((context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

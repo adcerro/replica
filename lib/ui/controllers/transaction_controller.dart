@@ -25,7 +25,9 @@ class TransactionController extends GetxController {
   Future<bool> addTransaction({required Transaction transaction}) async {
     try {
       await _transactionUseCase.addTransaction(transaction: transaction);
-      logInfo('Added transaction with id ${transaction.getId()}');
+      logInfo(
+        'Added transaction with key ${transaction.userEmail}-${transaction.dateTime}',
+      );
       return true;
     } catch (e) {
       logError('Error adding the transaction. ', e);
@@ -36,7 +38,9 @@ class TransactionController extends GetxController {
   Future<bool> updateTransaction({required Transaction transaction}) async {
     try {
       await _transactionUseCase.updateTransaction(transaction: transaction);
-      logInfo('Updated transaction with id ${transaction.getId()}');
+      logInfo(
+        'Updated transaction with key ${transaction.userEmail}-${transaction.dateTime}',
+      );
       return true;
     } catch (e) {
       logError('Error updating the transaction. ', e);
@@ -44,13 +48,12 @@ class TransactionController extends GetxController {
     }
   }
 
-  Future<bool> deleteTransaction({
-    required String userEmail,
-    required double id,
-  }) async {
+  Future<bool> deleteTransaction({required Transaction transaction}) async {
     try {
-      await _transactionUseCase.deleteTransaction(userEmail: userEmail, id: id);
-      logInfo('Deleted transaction with id $id');
+      await _transactionUseCase.deleteTransaction(transaction: transaction);
+      logInfo(
+        'Deleted transaction with key ${transaction.userEmail}-${transaction.dateTime}',
+      );
       return true;
     } catch (e) {
       logError('Error deleting the transaction. ', e);
@@ -58,18 +61,10 @@ class TransactionController extends GetxController {
     }
   }
 
-  Future<bool> deleteAllUserTransactions({
-    required String userEmail,
-    required bool accountDeletion,
-  }) async {
+  Future<bool> deleteAllUserTransactions({required String userEmail}) async {
     try {
-      await _transactionUseCase.deleteAllUserTransactions(
-        userEmail: userEmail,
-        accountDeletion: accountDeletion,
-      );
-      accountDeletion
-          ? logInfo('User transactions removed completely')
-          : logInfo('Emptied transaction list for user');
+      await _transactionUseCase.deleteAllUserTransactions(userEmail: userEmail);
+      logInfo('Emptied transaction list for user');
       return true;
     } catch (e) {
       logError('Error deleting all transactions', e);

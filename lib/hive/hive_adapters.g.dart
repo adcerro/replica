@@ -17,17 +17,28 @@ class UserAdapter extends TypeAdapter<User> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return User(
-      name: fields[0],
-      email: fields[1],
-      password: fields[2],
-      income: fields[3],
-      budget: fields[4],
+      name: fields[0] as String?,
+      email: fields[1] as String,
+      password: fields[2] as String,
+      income: (fields[3] as num).toDouble(),
+      budget: (fields[4] as num).toDouble(),
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
-    writer.writeByte(0);
+    writer
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.email)
+      ..writeByte(2)
+      ..write(obj.password)
+      ..writeByte(3)
+      ..write(obj.income)
+      ..writeByte(4)
+      ..write(obj.budget);
   }
 
   @override
@@ -52,16 +63,22 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Transaction(
-      id: fields[0],
-      userEmail: fields[1],
-      value: fields[2],
-      category: fields[3],
+      userEmail: fields[0] as String,
+      value: (fields[1] as num).toDouble(),
+      category: fields[2] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Transaction obj) {
-    writer.writeByte(0);
+    writer
+      ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.userEmail)
+      ..writeByte(1)
+      ..write(obj.value)
+      ..writeByte(2)
+      ..write(obj.category);
   }
 
   @override

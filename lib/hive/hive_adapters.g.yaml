@@ -5,9 +5,25 @@ nextTypeId: 2
 types:
   User:
     typeId: 0
-    nextIndex: 0
-    fields: {}
+    nextIndex: 5
+    fields:
+      name:
+        index: 0
+      email:
+        index: 1
+      password:
+        index: 2
+      income:
+        index: 3
+      budget:
+        index: 4
   Transaction:
     typeId: 1
-    nextIndex: 0
-    fields: {}
+    nextIndex: 3
+    fields:
+      userEmail:
+        index: 0
+      value:
+        index: 1
+      category:
+        index: 2

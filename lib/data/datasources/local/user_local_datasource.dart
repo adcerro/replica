@@ -7,17 +7,17 @@ class UserLocalDataSource implements IUserLocalDataSource {
   @override
   Future<void> addUser({required User user}) async {
     for (User usr in _box.values) {
-      if (usr.getEmail() == user.getEmail()) {
+      if (usr.email == user.email) {
         throw Exception('Email Already in use');
       }
     }
-    await _box.put(user.getEmail(), user);
+    await _box.put(user.email, user);
   }
 
   @override
   Future<void> deleteUser({required String email}) async {
     for (User usr in _box.values) {
-      if (usr.getEmail() == email) {
+      if (usr.email == email) {
         await _box.delete(email);
       }
     }
@@ -32,8 +32,8 @@ class UserLocalDataSource implements IUserLocalDataSource {
   @override
   Future<void> updateUser({required User user}) async {
     for (User usr in _box.values) {
-      if (usr.getEmail() == user.getEmail()) {
-        await _box.put(user.getEmail(), user);
+      if (usr.email == user.email) {
+        await _box.put(user.email, user);
       }
     }
     throw Exception('User does not exist!');

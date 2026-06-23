@@ -52,14 +52,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    user!.getName()!.capitalize ?? '',
+                    user!.name!.capitalize ?? '',
                     style: TextTheme.of(context).titleMedium?.copyWith(
                       color: Colors.white,
                       fontWeight: .bold,
                     ),
                   ),
                   Text(
-                    user.getEmail(),
+                    user.email,
                     style: TextTheme.of(
                       context,
                     ).titleSmall?.copyWith(color: Colors.white70),
@@ -72,8 +72,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
         const SliverToBoxAdapter(child: SizedBox(height: 15)),
         SliverToBoxAdapter(
           child: ProfileExpansionTile(
-            userName: user.getName()!.capitalize ?? '',
-            userEmail: user.getEmail(),
+            userName: user.name!.capitalize ?? '',
+            userEmail: user.email,
             userPhone: '+57 --- --- ----',
             userCountry: 'Colombia',
             editMode: editUser,

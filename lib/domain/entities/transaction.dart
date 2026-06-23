@@ -1,31 +1,18 @@
 class Transaction implements Comparable<Transaction> {
-  final double _id;
-  final String _userEmail;
-  late double _value;
-  String? _category;
-  Transaction({
-    required this._id,
-    required this._userEmail,
-    required this._value,
-    this._category,
-  });
-
-  double getId() => _id;
-
-  String getUserEmail() => _userEmail;
-
-  double getValue() => _value;
-
-  String? getCategory() => _category;
-
-  void setValue({required double newValue}) => _value = newValue;
-
-  void setCategory({required String newCategory}) => _category = newCategory;
+  final DateTime dateTime = DateTime.now();
+  final String userEmail;
+  late double value;
+  String? category;
+  Transaction({required this.userEmail, required this.value, this.category});
 
   @override
   int compareTo(Transaction other) {
-    if (other.getId() > _id) return -1;
-    if (other.getId() < _id) return 1;
+    if (other.userEmail.compareTo(userEmail) > 0) return -1;
+    if (other.userEmail.compareTo(userEmail) < 0) return 1;
+
+    if (other.dateTime.isAfter(dateTime)) return -1;
+    if (other.dateTime.isBefore(dateTime)) return 1;
+
     return 0;
   }
 
@@ -35,17 +22,17 @@ class Transaction implements Comparable<Transaction> {
 
     Transaction otherTrans = other as Transaction;
     try {
-      otherTrans.getUserEmail();
-      otherTrans.getId();
+      otherTrans.userEmail;
+      otherTrans.dateTime;
     } catch (e) {
       return false;
     }
-    if (otherTrans.getUserEmail() == _userEmail && otherTrans.getId() == _id) {
+    if (otherTrans.userEmail == userEmail && otherTrans.dateTime == dateTime) {
       return true;
     }
     return false;
   }
 
   @override
-  int get hashCode => _id.hashCode ^ _userEmail.hashCode;
+  int get hashCode => dateTime.hashCode ^ userEmail.hashCode;
 }

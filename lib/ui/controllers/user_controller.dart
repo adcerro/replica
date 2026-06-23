@@ -18,7 +18,7 @@ class UserController extends GetxController {
   }) async {
     _loggedUser = await _userUseCase.getUser(email: email);
     if (_loggedUser != null &&
-        BCrypt.checkpw(password, _loggedUser!.getPassword())) {
+        BCrypt.checkpw(password, _loggedUser!.password)) {
       logInfo('Accessed user with email: $email');
       return _loggedUser;
     }
@@ -59,11 +59,9 @@ class UserController extends GetxController {
   /// The user password will get
   Future<bool> registerUser({required User user}) async {
     try {
-      user.setPassword(
-        newPass: BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()),
-      );
+      user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
       await _userUseCase.addUser(user: user);
-      logInfo('Registered user with email: ${user.getEmail()}');
+      logInfo('Registered user with email: ${user.email}');
       return true;
     } catch (e) {
       logError('Error registering user: ${e.toString()}');
@@ -80,7 +78,7 @@ class UserController extends GetxController {
     }
     try {
       await _userUseCase.updateUser(user: user);
-      logInfo('Updated user with email: ${user.getEmail()}');
+      logInfo('Updated user with email: ${user.email}');
       _loggedUser = user;
       return true;
     } catch (e) {
@@ -91,7 +89,7 @@ class UserController extends GetxController {
 
   /// The logged user would be the deleted one.
   Future<bool> deleteUser({required String email}) async {
-    if (_loggedUser == null || _loggedUser!.getEmail() != email) {
+    if (_loggedUser == null || _loggedUser!.email != email) {
       logError('logged user Unauthorized');
       return false;
     }

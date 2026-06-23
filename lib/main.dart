@@ -10,6 +10,7 @@ import 'package:tester/data/datasources/local/transaction_local_datasource.dart'
 import 'package:tester/data/datasources/local/user_local_datasource.dart';
 import 'package:tester/data/repositories/transaction_repository.dart';
 import 'package:tester/data/repositories/user_repository.dart';
+import 'package:tester/domain/entities/transaction.dart';
 import 'package:tester/domain/entities/user.dart';
 import 'package:tester/domain/repositories/i_transaction_repository.dart';
 import 'package:tester/domain/repositories/i_user_repository.dart';
@@ -30,12 +31,12 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapters();
 
-  // Remove this line to keep thee created users.
+  // Remove this line to keep the created users.
   await Hive.deleteBoxFromDisk('users');
 
   await Hive.openBox('settings');
   await Hive.openBox<User>('users');
-  await Hive.openBox<List>('transactions');
+  await Hive.openBox<Transaction>('transactions');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

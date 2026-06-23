@@ -107,7 +107,7 @@ class _UserMainPageState extends State<UserMainPage> {
                     Text(
                       hideNumbers
                           ? '****'
-                          : '\$ ${_userController.getLoggedUser()?.getBudget().toString()}',
+                          : '\$ ${_userController.getLoggedUser()?.budget.toString()}',
                       style: TextTheme.of(context).displayLarge?.copyWith(
                         fontWeight: .bold,
                         color: Colors.white,

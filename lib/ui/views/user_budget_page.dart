@@ -46,7 +46,7 @@ class _UserBudgetPageState extends State<UserBudgetPage> {
         ),
         SliverToBoxAdapter(
           child: IncomeCard(
-            income: _userController.getLoggedUser()!.getIncome(),
+            income: _userController.getLoggedUser()!.income,
             editMode: editIncome,
             onEditClicked: () => setState(() {
               editIncome = true;
@@ -62,7 +62,7 @@ class _UserBudgetPageState extends State<UserBudgetPage> {
         SliverToBoxAdapter(
           child: BudgetCard(
             editMode: editBudget,
-            budget: _userController.getLoggedUser()!.getBudget(),
+            budget: _userController.getLoggedUser()!.budget,
             spent: 0,
             onEditClicked: () => setState(() {
               editBudget = true;

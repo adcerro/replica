@@ -10,22 +10,14 @@ class TransactionRepository implements ITransactionRepository {
       _transactionLocalDataSource.addTransaction(transaction: transaction);
 
   @override
-  Future<void> deleteAllUserTransactions({
-    required String userEmail,
-    required bool accountDeletion,
-  }) async => _transactionLocalDataSource.deleteAllUserTransactions(
-    userEmail: userEmail,
-    accountDeletion: accountDeletion,
-  );
+  Future<void> deleteAllUserTransactions({required String userEmail}) async =>
+      _transactionLocalDataSource.deleteAllUserTransactions(
+        userEmail: userEmail,
+      );
 
   @override
-  Future<void> deleteTransaction({
-    required String userEmail,
-    required double id,
-  }) async => _transactionLocalDataSource.deleteTransaction(
-    userEmail: userEmail,
-    id: id,
-  );
+  Future<void> deleteTransaction({required Transaction transaction}) async =>
+      _transactionLocalDataSource.deleteTransaction(transaction: transaction);
 
   @override
   Future<List<Transaction>?> getUserTransactions({
