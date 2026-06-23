@@ -6,7 +6,7 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
   final _box = Hive.box<Transaction>('transactions');
   @override
   Future<void> addTransaction({required Transaction transaction}) async {
-    if (!_box.values.contains(transaction)) {
+    if (_box.values.contains(transaction)) {
       throw Exception('Transaction ID in use');
     } else {
       _box.put('${transaction.userEmail}-${transaction.dateTime}', transaction);
@@ -26,13 +26,17 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
   Future<List<Transaction>> getUserTransactions({
     required String userEmail,
   }) async {
-    Iterable<dynamic> transactions = _box.keys.where(
+    Iterable<dynamic> transactionKeys = _box.keys.where(
       (element) => (element as String).startsWith(userEmail),
     );
-    if (transactions.isEmpty) {
+    if (transactionKeys.isEmpty) {
       throw Exception('User has not transactions');
     }
-    return List<Transaction>.from(transactions);
+    List<Transaction> transactions = [];
+    for (var key in transactionKeys) {
+      transactions.add(_box.get(key)!);
+    }
+    return transactions;
   }
 
   @override

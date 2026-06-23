@@ -137,7 +137,9 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
               );
             }
             return SliverList.builder(
-              itemBuilder: (context, index) => ListTile(title: Text('$index')),
+              itemBuilder: (context, index) => ListTile(
+                title: Text('${snapshot.data!.elementAt(index).value}'),
+              ),
               itemCount: snapshot.data!.length,
             );
           }),

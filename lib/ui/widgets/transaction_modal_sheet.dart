@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
+import 'package:tester/domain/entities/transaction.dart';
+import 'package:tester/ui/controllers/transaction_controller.dart';
+import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/category_menu_map.dart';
 
 class TransactionModalSheet extends StatefulWidget {
@@ -14,7 +18,24 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
   bool incomeLabelBackground = true;
   DateTime today = DateTime.now().toLocal();
   DateTime? pickedDate;
+  final UserController _userController = Get.find();
+  final TransactionController _transactionController = Get.find();
   final TextEditingController transactionController = TextEditingController();
+  void registerTransaction({bool isExpense = true}) {
+    double? ammount = double.tryParse(
+      transactionController.text.split(' ').last,
+    );
+    if (ammount == null) {
+      logError('Cannot parse transaction value');
+      return;
+    }
+    _transactionController.addTransaction(
+      transaction: Transaction(
+        userEmail: _userController.getLoggedUser()!.email,
+        value: isExpense ? ammount * -1 : ammount.abs(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -235,6 +256,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                           ),
                         ),
                         onPressed: () {
+                          registerTransaction(isExpense: true);
                           Get.back();
                         },
                         child: Text(
@@ -258,6 +280,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                           ),
                         ),
                         onPressed: () {
+                          registerTransaction(isExpense: false);
                           Get.back();
                         },
                         child: Text(

@@ -17,7 +17,7 @@ class TransactionController extends GetxController {
       logInfo('Got ${userTransactions?.length} transactions for the user');
       return userTransactions;
     } catch (e) {
-      logError('Error getting transactions for the user', e);
+      logError('Error getting transactions for the user. ${e.toString()}');
       return null;
     }
   }
@@ -30,7 +30,7 @@ class TransactionController extends GetxController {
       );
       return true;
     } catch (e) {
-      logError('Error adding the transaction. ', e);
+      logError('Error adding the transaction. ${e.toString()}');
       return false;
     }
   }
@@ -43,7 +43,7 @@ class TransactionController extends GetxController {
       );
       return true;
     } catch (e) {
-      logError('Error updating the transaction. ', e);
+      logError('Error updating the transaction. ${e.toString()}');
       return false;
     }
   }
@@ -56,7 +56,7 @@ class TransactionController extends GetxController {
       );
       return true;
     } catch (e) {
-      logError('Error deleting the transaction. ', e);
+      logError('Error deleting the transaction. ${e.toString()}');
       return false;
     }
   }
@@ -67,7 +67,7 @@ class TransactionController extends GetxController {
       logInfo('Emptied transaction list for user');
       return true;
     } catch (e) {
-      logError('Error deleting all transactions', e);
+      logError('Error deleting all transactions. ${e.toString()}');
       return false;
     }
   }
