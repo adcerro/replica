@@ -118,7 +118,7 @@ class ConfirmationPage extends StatelessWidget {
                   ),
                   onPressed: () async {
                     if (userController.getLoggedUser() == null) {
-                      await userController.guestUserMode(
+                      await userController.registerGuest(
                         income: income,
                         budget: budget,
                       );

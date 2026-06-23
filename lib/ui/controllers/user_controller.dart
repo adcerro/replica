@@ -35,15 +35,10 @@ class UserController extends GetxController {
     logInfo('Logged out');
   }
 
-  Future<void> guestUserMode({
+  Future<void> registerGuest({
     required double income,
     required double budget,
   }) async {
-    _loggedUser = await logUser(email: 'guest@user', password: 'guestpass');
-    if (_loggedUser != null) {
-      logInfo('Logged in as local user');
-      return;
-    }
     await registerUser(
       user: User(
         name: 'guest',

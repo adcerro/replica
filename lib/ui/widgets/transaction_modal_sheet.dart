@@ -14,6 +14,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
   bool incomeLabelBackground = true;
   DateTime today = DateTime.now().toLocal();
   DateTime? pickedDate;
+  final TextEditingController transactionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
               alignment: .bottomEnd,
               children: [
                 TextField(
+                  controller: transactionController,
                   decoration: InputDecoration(
                     focusedBorder: focusedBorder,
                     enabledBorder: enabledBorder,
@@ -211,7 +213,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                             context,
                           ).bodySmall?.copyWith(color: slateColor),
                         ),
-                        width: 400,
+                        width: .maxFinite,
                         showTrailingIcon: false,
                         selectOnly: true,
                         dropdownMenuEntries: List.generate(
@@ -227,7 +229,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                       TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Theme.of(context).primaryColor,
-                          fixedSize: Size(400, 50),
+                          fixedSize: const Size(.maxFinite, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: .circular(14),
                           ),
@@ -250,7 +252,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                       TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Color(0xFF00C950),
-                          fixedSize: Size(400, 50),
+                          fixedSize: const Size(.maxFinite, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: .circular(14),
                           ),

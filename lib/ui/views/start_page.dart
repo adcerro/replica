@@ -2,6 +2,8 @@ import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
+import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/custom_text_field.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 
@@ -13,6 +15,7 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   bool register = Get.arguments['register'];
+  final UserController _userController = Get.find();
 
   AnimatedToggleSwitch<bool> registerLoginToggle(BuildContext context) {
     TextStyle? optionTextStyle = TextTheme.of(context).labelSmall?.copyWith(
@@ -359,8 +362,17 @@ class _StartPageState extends State<StartPage> {
               ),
             ),
             TextButton(
-              onPressed: () {
-                Get.toNamed('/income');
+              onPressed: () async {
+                if (await _userController.logUser(
+                      email: 'guest@user',
+                      password: 'guestpass',
+                    ) !=
+                    null) {
+                  logInfo('Logged in as local user');
+                  Get.offAllNamed('/user');
+                } else {
+                  Get.toNamed('/income');
+                }
               },
               child: Text(
                 'Continuar sin cuenta',

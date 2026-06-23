@@ -32,7 +32,7 @@ void main() async {
   Hive.registerAdapters();
 
   // Remove this line to keep the created users.
-  await Hive.deleteBoxFromDisk('users');
+  //await Hive.deleteBoxFromDisk('users');
 
   await Hive.openBox('settings');
   await Hive.openBox<User>('users');
