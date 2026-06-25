@@ -5,7 +5,6 @@ import 'package:loggy/loggy.dart';
 import 'package:tester/domain/entities/transaction.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
-import 'package:tester/ui/widgets/category_menu_map.dart';
 
 class TransactionModalSheet extends StatefulWidget {
   const TransactionModalSheet({super.key});
@@ -238,12 +237,17 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                         showTrailingIcon: false,
                         selectOnly: true,
                         dropdownMenuEntries: List.generate(
-                          10,
-                          ((index) => DropdownMenuEntry(
-                            value: CategoryMenuMap().map.keys.elementAt(index),
-                            label:
-                                '${CategoryMenuMap().map.values.elementAt(index)} ${CategoryMenuMap().map.keys.elementAt(index)}',
-                          )),
+                          _userController.getLoggedUser()!.categories.length,
+                          (index) => DropdownMenuEntry(
+                            value: _userController
+                                .getLoggedUser()!
+                                .categories
+                                .elementAt(index),
+                            label: _userController
+                                .getLoggedUser()!
+                                .categories
+                                .elementAt(index),
+                          ),
                         ),
                       ),
                       SizedBox(height: 10),

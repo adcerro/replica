@@ -31,7 +31,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapters();
 
-  // Remove this line to keep the created users.
+  // Remove these line to keep the created users.
   //await Hive.deleteBoxFromDisk('users');
 
   await Hive.openBox('settings');

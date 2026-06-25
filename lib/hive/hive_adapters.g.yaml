@@ -5,7 +5,7 @@ nextTypeId: 2
 types:
   User:
     typeId: 0
-    nextIndex: 5
+    nextIndex: 6
     fields:
       name:
         index: 0
@@ -17,6 +17,8 @@ types:
         index: 3
       budget:
         index: 4
+      categories:
+        index: 5
   Transaction:
     typeId: 1
     nextIndex: 3

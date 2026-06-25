@@ -4,6 +4,7 @@ class User {
   late String password;
   late double income;
   late double budget;
+  List<String> categories = [''];
   User({
     this.name,
     required this.email,
