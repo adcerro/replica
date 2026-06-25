@@ -21,13 +21,15 @@ types:
         index: 5
   Transaction:
     typeId: 1
-    nextIndex: 4
+    nextIndex: 5
     fields:
-      userEmail:
+      dateTime:
         index: 0
-      label:
+      userEmail:
         index: 1
-      value:
+      label:
         index: 2
-      category:
+      value:
         index: 3
+      category:
+        index: 4

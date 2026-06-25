@@ -19,21 +19,27 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
   DateTime? pickedDate;
   final UserController _userController = Get.find();
   final TransactionController _transactionController = Get.find();
-  final TextEditingController transactionController = TextEditingController();
+  final TextEditingController transactionTextController =
+      TextEditingController();
   void registerTransaction({bool isExpense = true}) {
     double? ammount = double.tryParse(
-      transactionController.text.split(' ').last,
+      transactionTextController.text.split(' ').last,
     );
-    if (ammount == null) {
-      logError('Cannot parse transaction value');
+    String label = transactionTextController.text.split(' ').first;
+    if (ammount == null || label.isEmpty) {
+      logError('Cannot parse transaction label/value');
+      transactionTextController.text = 'Formato incorrecto';
       return;
     }
     _transactionController.addTransaction(
       transaction: Transaction(
+        label: label,
         userEmail: _userController.getLoggedUser()!.email,
         value: isExpense ? ammount * -1 : ammount.abs(),
+        dateTime: pickedDate ?? today,
       ),
     );
+    Get.back();
   }
 
   @override
@@ -84,7 +90,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
               alignment: .bottomEnd,
               children: [
                 TextField(
-                  controller: transactionController,
+                  controller: transactionTextController,
                   decoration: InputDecoration(
                     focusedBorder: focusedBorder,
                     enabledBorder: enabledBorder,
@@ -156,6 +162,8 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                       initialDate: DateTime.now().toLocal(),
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2100),
+                      onDateSaved: (value) => pickedDate = value,
+                      onDateSubmitted: (value) => pickedDate = value,
                     ),
                   ),
             TabBar(
@@ -261,7 +269,6 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                         ),
                         onPressed: () {
                           registerTransaction(isExpense: true);
-                          Get.back();
                         },
                         child: Text(
                           'Registrar gasto',
@@ -285,7 +292,6 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                         ),
                         onPressed: () {
                           registerTransaction(isExpense: false);
-                          Get.back();
                         },
                         child: Text(
                           'Registrar ingreso',

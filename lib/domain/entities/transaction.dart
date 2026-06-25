@@ -1,5 +1,5 @@
 class Transaction implements Comparable<Transaction> {
-  final DateTime dateTime = DateTime.now();
+  late DateTime dateTime;
   final String userEmail;
   late String label;
   late double value;
@@ -9,6 +9,7 @@ class Transaction implements Comparable<Transaction> {
     required this.value,
     this.category,
     this.label = '',
+    required this.dateTime,
   });
 
   @override

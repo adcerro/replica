@@ -77,6 +77,7 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
           future: _transactionController.getUserTransactions(
             userEmail: user!.email,
           ),
+          initialData: [],
           builder: ((context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const SliverFillRemaining(
@@ -137,10 +138,52 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
               );
             }
             return SliverList.builder(
-              itemBuilder: (context, index) => ListTile(
-                title: Text('${snapshot.data!.elementAt(index).value}'),
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) => Padding(
+                padding: .all(15),
+                child: ListTile(
+                  tileColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: slateColor.withValues(alpha: 0.1)),
+                    borderRadius: .circular(12),
+                  ),
+                  leading: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: slateColor,
+                      borderRadius: .circular(12),
+                    ),
+                    alignment: .center,
+                    child: Text('📋', style: TextStyle(fontSize: 20)),
+                  ),
+                  title: Text(snapshot.data!.elementAt(index).label),
+                  subtitle: Text(
+                    snapshot.data!.elementAt(index).category ?? 'Sin categoría',
+                  ),
+                  trailing: Row(
+                    mainAxisSize: .min,
+                    children: [
+                      Text(
+                        snapshot.data!.elementAt(index).value.toString(),
+                        style: TextTheme.of(
+                          context,
+                        ).bodyMedium?.copyWith(fontWeight: .bold),
+                      ),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                      IconButton(
+                        onPressed: () async {
+                          await _transactionController.deleteTransaction(
+                            transaction: snapshot.data!.elementAt(index),
+                          );
+                          setState(() => snapshot.data!.removeAt(index));
+                        },
+                        icon: Icon(Icons.delete),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              itemCount: snapshot.data!.length,
             );
           }),
         ),
