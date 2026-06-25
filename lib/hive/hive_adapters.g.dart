@@ -66,20 +66,23 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
     };
     return Transaction(
       userEmail: fields[0] as String,
-      value: (fields[1] as num).toDouble(),
-      category: fields[2] as String?,
+      value: (fields[2] as num).toDouble(),
+      category: fields[3] as String?,
+      label: fields[1] == null ? '' : fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Transaction obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.userEmail)
       ..writeByte(1)
-      ..write(obj.value)
+      ..write(obj.label)
       ..writeByte(2)
+      ..write(obj.value)
+      ..writeByte(3)
       ..write(obj.category);
   }
 

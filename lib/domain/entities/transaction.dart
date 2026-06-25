@@ -1,9 +1,15 @@
 class Transaction implements Comparable<Transaction> {
   final DateTime dateTime = DateTime.now();
   final String userEmail;
+  late String label;
   late double value;
   String? category;
-  Transaction({required this.userEmail, required this.value, this.category});
+  Transaction({
+    required this.userEmail,
+    required this.value,
+    this.category,
+    this.label = '',
+  });
 
   @override
   int compareTo(Transaction other) {
