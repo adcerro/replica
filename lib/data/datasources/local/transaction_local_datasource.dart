@@ -9,7 +9,10 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     if (_box.values.contains(transaction)) {
       throw Exception('Transaction ID in use');
     } else {
-      _box.put('${transaction.userEmail}-${transaction.dateTime}', transaction);
+      _box.put(
+        '${transaction.userEmail}-${transaction.dateTime.toString()}',
+        transaction,
+      );
     }
   }
 
@@ -18,12 +21,14 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     if (!_box.values.contains(transaction)) {
       throw Exception('Transaction not found');
     } else {
-      _box.delete('${transaction.userEmail}-${transaction.dateTime}');
+      _box.delete(
+        '${transaction.userEmail}-${transaction.dateTime.toString()}',
+      );
     }
   }
 
   @override
-  Future<List<Transaction>> getUserTransactions({
+  Future<List<Transaction>?> getUserTransactions({
     required String userEmail,
   }) async {
     Iterable<dynamic> transactionKeys = _box.keys.where(
@@ -41,7 +46,8 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
 
   @override
   Future<void> updateTransaction({required Transaction transaction}) async {
-    String transactionKey = '${transaction.userEmail}-${transaction.dateTime}';
+    String transactionKey =
+        '${transaction.userEmail}-${transaction.dateTime.toString()}';
     if (!_box.keys.contains(transactionKey)) {
       throw Exception('Transaction ID not found');
     }

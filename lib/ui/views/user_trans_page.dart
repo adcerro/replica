@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tester/domain/entities/transaction.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/widgets/transaction_modal_sheet.dart';
 import '../../domain/entities/user.dart';
@@ -16,6 +17,15 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
   final TransactionController _transactionController = Get.find();
   late User? user = _userController.getLoggedUser();
   final Color slateColor = Color.fromARGB(150, 100, 116, 139);
+  late Future<List<Transaction>?> userTransactions;
+
+  @override
+  void initState() {
+    super.initState();
+    userTransactions = _transactionController.getUserTransactions(
+      userEmail: user!.email,
+    );
+  }
 
   void addTransaction() {
     showModalBottomSheet(
@@ -74,9 +84,7 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
           ),
         ),
         FutureBuilder(
-          future: _transactionController.getUserTransactions(
-            userEmail: user!.email,
-          ),
+          future: userTransactions,
           initialData: [],
           builder: ((context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
