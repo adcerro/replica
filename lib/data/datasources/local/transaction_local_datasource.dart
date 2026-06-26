@@ -1,4 +1,5 @@
 import 'package:hive_ce/hive.dart';
+import 'package:loggy/loggy.dart';
 import 'package:tester/data/datasources/local/i_transaction_local_datasource.dart';
 import 'package:tester/domain/entities/transaction.dart';
 
@@ -6,24 +7,25 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
   final _box = Hive.box<Transaction>('transactions');
   @override
   Future<void> addTransaction({required Transaction transaction}) async {
-    if (_box.values.contains(transaction)) {
-      throw Exception('Transaction ID in use');
-    } else {
-      _box.put(
-        '${transaction.userEmail}-${transaction.dateTime.toString()}',
-        transaction,
-      );
-    }
+    await _box.add(transaction);
   }
 
   @override
   Future<void> deleteTransaction({required Transaction transaction}) async {
-    if (!_box.values.contains(transaction)) {
+    bool foundKey = false;
+    int index = 0;
+    while (!foundKey && index < _box.length) {
+      if (transaction == _box.get(index)) {
+        foundKey = true;
+      } else {
+        index++;
+      }
+    }
+
+    if (!foundKey) {
       throw Exception('Transaction not found');
     } else {
-      _box.delete(
-        '${transaction.userEmail}-${transaction.dateTime.toString()}',
-      );
+      await _box.delete(index);
     }
   }
 
@@ -31,33 +33,35 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
   Future<List<Transaction>?> getUserTransactions({
     required String userEmail,
   }) async {
-    Iterable<dynamic> transactionKeys = _box.keys.where(
-      (element) => (element as String).startsWith(userEmail),
+    Iterable<Transaction> userTransactions = _box.values.where(
+      (element) => element.userEmail == userEmail,
     );
-    if (transactionKeys.isEmpty) {
-      throw Exception('User has not transactions');
-    }
-    List<Transaction> transactions = [];
-    for (var key in transactionKeys) {
-      transactions.add(_box.get(key)!);
-    }
-    return transactions;
+    if (userTransactions.isEmpty) logWarning('User has not transactions');
+
+    return userTransactions.toList();
   }
 
   @override
   Future<void> updateTransaction({required Transaction transaction}) async {
-    String transactionKey =
-        '${transaction.userEmail}-${transaction.dateTime.toString()}';
-    if (!_box.keys.contains(transactionKey)) {
+    bool foundKey = false;
+    int index = 0;
+    while (!foundKey && index < _box.length) {
+      if (transaction == _box.get(index)) {
+        foundKey = true;
+      } else {
+        index++;
+      }
+    }
+    if (!foundKey) {
       throw Exception('Transaction ID not found');
     }
-    _box.put(transactionKey, transaction);
+    await _box.put(index, transaction);
   }
 
   @override
   Future<void> deleteAllUserTransactions({required String userEmail}) async {
     Iterable<dynamic> transactions = _box.keys.where(
-      (element) => (element as String).startsWith(userEmail),
+      (element) => _box.get(element)!.userEmail == userEmail,
     );
     transactions.forEach(_box.delete);
   }
