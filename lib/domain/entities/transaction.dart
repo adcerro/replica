@@ -1,5 +1,5 @@
 class Transaction implements Comparable<Transaction> {
-  late DateTime dateTime;
+  final DateTime dateTime;
   final String userEmail;
   late String label;
   late double value;
