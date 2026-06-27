@@ -17,6 +17,24 @@ class TransactionController extends GetxController {
     return userTransactions;
   }
 
+  Map<DateTime, List<Transaction>> groupTransactionsByDate({
+    required List<Transaction> transactions,
+  }) {
+    Map<DateTime, List<Transaction>> grouped = {};
+
+    for (Transaction trans in transactions) {
+      DateTime key = DateTime(
+        trans.dateTime.year,
+        trans.dateTime.month,
+        trans.dateTime.day,
+      );
+      grouped.putIfAbsent(key, () => []);
+      grouped[key]!.add(trans);
+    }
+
+    return grouped;
+  }
+
   Future<void> addTransaction({required Transaction transaction}) async {
     await _transactionUseCase.addTransaction(transaction: transaction);
     logInfo(

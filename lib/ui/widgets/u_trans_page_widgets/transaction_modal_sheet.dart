@@ -13,7 +13,7 @@ class TransactionModalSheet extends StatefulWidget {
 }
 
 class _TransactionModalSheetState extends State<TransactionModalSheet> {
-  Color indicatorColor = Color.fromARGB(255, 100, 116, 139);
+  Color indicatorColor = const Color.fromARGB(255, 100, 116, 139);
   bool incomeLabelBackground = true;
   DateTime today = DateTime.now().toLocal();
   DateTime? pickedDate;

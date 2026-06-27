@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tester/domain/entities/transaction.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
-import 'package:tester/ui/widgets/transaction_modal_sheet.dart';
+import 'package:tester/ui/widgets/u_trans_page_widgets/no_transaction_container.dart';
+import 'package:tester/ui/widgets/u_trans_page_widgets/transaction_list_tile.dart';
+import 'package:tester/ui/widgets/u_trans_page_widgets/transaction_modal_sheet.dart';
 import '../../domain/entities/user.dart';
 import '../controllers/user_controller.dart';
 
@@ -108,99 +110,49 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
             }
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return SliverToBoxAdapter(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: kElevationToShadow[1],
-                  ),
-                  margin: EdgeInsets.all(15),
-                  height: MediaQuery.sizeOf(context).height / 4,
-                  child: Column(
-                    mainAxisAlignment: .center,
-                    spacing: 10,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          '📋',
-                          style: TextTheme.of(context).headlineSmall,
-                        ),
-                      ),
-                      Text(
-                        'Aún no hay movimientos',
-                        style: TextTheme.of(
-                          context,
-                        ).labelLarge?.copyWith(color: slateColor),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          addTransaction();
-                        },
-                        child: Text(
-                          'Agregar el primero',
-                          style: TextTheme.of(context).labelLarge?.copyWith(
-                            fontWeight: .bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: NoTransactionContainer(onCreate: addTransaction),
               );
             }
+            List<MapEntry<DateTime, List<Transaction>>> groupedTransactions =
+                _transactionController
+                    .groupTransactionsByDate(
+                      transactions: snapshot.data as List<Transaction>,
+                    )
+                    .entries
+                    .toList();
+
             return SliverList.builder(
-              itemCount: snapshot.data?.length,
-              itemBuilder: (context, index) => Padding(
-                padding: .all(15),
-                child: ListTile(
-                  tileColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: slateColor.withValues(alpha: 0.1)),
-                    borderRadius: .circular(12),
-                  ),
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: slateColor,
-                      borderRadius: .circular(12),
-                    ),
-                    alignment: .center,
-                    child: Text('📋', style: TextStyle(fontSize: 20)),
-                  ),
-                  title: Text(snapshot.data!.elementAt(index).label),
-                  subtitle: Text(
-                    snapshot.data!.elementAt(index).category ?? 'Sin categoría',
-                  ),
-                  trailing: Row(
-                    mainAxisSize: .min,
+              itemCount: groupedTransactions.length,
+              itemBuilder: (context, index) {
+                MapEntry<DateTime, List<Transaction>> entry =
+                    groupedTransactions[index];
+                return Padding(
+                  padding: .all(15),
+                  child: Column(
                     children: [
-                      Text(
-                        snapshot.data!.elementAt(index).value.toString(),
-                        style: TextTheme.of(
-                          context,
-                        ).bodyMedium?.copyWith(fontWeight: .bold),
-                      ),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
-                      IconButton(
-                        onPressed: () async {
-                          await _transactionController.deleteTransaction(
-                            transaction: snapshot.data!.elementAt(index),
-                          );
-                          setState(() => snapshot.data!.removeAt(index));
-                        },
-                        icon: Icon(Icons.delete),
+                      Text(entry.key.toString()),
+                      ...entry.value.map(
+                        (transaction) => TransactionListTile(
+                          transaction: transaction,
+                          onDelete: () async {
+                            await _transactionController.deleteTransaction(
+                              transaction: transaction,
+                            );
+                            setState(() {
+                              userTransactions = _transactionController
+                                  .getUserTransactions(
+                                    userEmail: _userController
+                                        .getLoggedUser()!
+                                        .email,
+                                  );
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
+                );
+              },
             );
           }),
         ),
