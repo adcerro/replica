@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 import 'package:tester/domain/entities/transaction.dart';
-import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 
 class TransactionModalSheet extends StatefulWidget {
-  const TransactionModalSheet({super.key});
+  final ValueSetter<Transaction>? onSaveClicked;
+  const TransactionModalSheet({super.key, this.onSaveClicked});
   @override
   State<TransactionModalSheet> createState() => _TransactionModalSheetState();
 }
@@ -18,7 +18,6 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
   DateTime today = DateTime.now().toLocal();
   DateTime? pickedDate;
   final UserController _userController = Get.find();
-  final TransactionController _transactionController = Get.find();
   final TextEditingController transactionTextController =
       TextEditingController();
   void registerTransaction({bool isExpense = true}) {
@@ -31,8 +30,8 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
       transactionTextController.text = 'Formato incorrecto';
       return;
     }
-    _transactionController.addTransaction(
-      transaction: Transaction(
+    widget.onSaveClicked!(
+      Transaction(
         label: label,
         userEmail: _userController.getLoggedUser()!.email,
         value: isExpense ? ammount * -1 : ammount.abs(),

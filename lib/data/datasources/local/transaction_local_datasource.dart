@@ -15,7 +15,7 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     bool foundKey = false;
     int index = 0;
     while (!foundKey && index < _box.length) {
-      if (transaction == _box.get(index)) {
+      if (transaction == _box.getAt(index)) {
         foundKey = true;
       } else {
         index++;
@@ -25,7 +25,7 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     if (!foundKey) {
       throw Exception('Transaction not found');
     } else {
-      await _box.delete(index);
+      await _box.deleteAt(index);
     }
   }
 
@@ -36,7 +36,7 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     Iterable<Transaction> userTransactions = _box.values.where(
       (element) => element.userEmail == userEmail,
     );
-    if (userTransactions.isEmpty) logWarning('User has not transactions');
+    if (userTransactions.isEmpty) logWarning('User has no transactions');
 
     return userTransactions.toList();
   }
@@ -46,7 +46,7 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     bool foundKey = false;
     int index = 0;
     while (!foundKey && index < _box.length) {
-      if (transaction == _box.get(index)) {
+      if (transaction == _box.getAt(index)) {
         foundKey = true;
       } else {
         index++;
@@ -55,14 +55,14 @@ class TransactionLocalDatasource implements ITransactionLocalDatasource {
     if (!foundKey) {
       throw Exception('Transaction ID not found');
     }
-    await _box.put(index, transaction);
+    await _box.putAt(index, transaction);
   }
 
   @override
   Future<void> deleteAllUserTransactions({required String userEmail}) async {
-    Iterable<dynamic> transactions = _box.keys.where(
+    Iterable<dynamic> transactionKeys = _box.keys.where(
       (element) => _box.get(element)!.userEmail == userEmail,
     );
-    transactions.forEach(_box.delete);
+    transactionKeys.forEach(_box.delete);
   }
 }

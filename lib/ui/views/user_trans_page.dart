@@ -30,7 +30,16 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
   void addTransaction() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => TransactionModalSheet(),
+      builder: (context) => TransactionModalSheet(
+        onSaveClicked: (transaction) async {
+          await _transactionController.addTransaction(transaction: transaction);
+          setState(() {
+            userTransactions = _transactionController.getUserTransactions(
+              userEmail: _userController.getLoggedUser()!.email,
+            );
+          });
+        },
+      ),
     );
   }
 
