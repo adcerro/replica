@@ -126,11 +126,35 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
               itemBuilder: (context, index) {
                 MapEntry<DateTime, List<Transaction>> entry =
                     groupedTransactions[index];
+                double totalForDate = 0;
+                for (Transaction trans in entry.value) {
+                  totalForDate += trans.value;
+                }
                 return Padding(
                   padding: .all(15),
                   child: Column(
+                    spacing: 10,
                     children: [
-                      Text(entry.key.toString()),
+                      Row(
+                        spacing: 10,
+                        children: [
+                          Text(
+                            '${entry.key.day}/${entry.key.month}/${entry.key.year}',
+                            style: TextTheme.of(context).labelMedium?.copyWith(
+                              color: slateColor,
+                              fontWeight: .bold,
+                            ),
+                          ),
+                          Expanded(child: Divider(thickness: 0.25)),
+                          Text(
+                            '\$ $totalForDate',
+                            style: TextTheme.of(context).labelMedium?.copyWith(
+                              color: slateColor,
+                              fontWeight: .bold,
+                            ),
+                          ),
+                        ],
+                      ),
                       ...entry.value.map(
                         (transaction) => TransactionListTile(
                           transaction: transaction,

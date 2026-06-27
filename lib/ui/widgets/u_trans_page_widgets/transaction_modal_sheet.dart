@@ -119,52 +119,38 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
               ],
             ),
 
-            defaultTargetPlatform == TargetPlatform.android ||
-                    defaultTargetPlatform == TargetPlatform.iOS
-                ? ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: slateColor.withValues(alpha: .05),
-                      foregroundColor: slateColor,
-                      fixedSize: Size(420, 20),
-                      shadowColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: .circular(14),
-                        side: enabledBorder.borderSide,
-                      ),
-                    ),
-                    onPressed: () async {
-                      pickedDate = await showDatePicker(
-                        context: context,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: .spaceBetween,
-                      children: [
-                        Text(
-                          '${today.day}/${today.month}/${today.year}',
-                          textAlign: .left,
-                        ),
-                        Icon(Icons.calendar_month),
-                      ],
-                    ),
-                  )
-                : InputDecorationTheme(
-                    focusedBorder: focusedBorder,
-                    enabledBorder: enabledBorder,
-                    filled: true,
-                    fillColor: slateColor.withValues(alpha: .05),
-                    focusColor: Colors.white,
-                    child: InputDatePickerFormField(
-                      fieldLabelText: '',
-                      initialDate: DateTime.now().toLocal(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2100),
-                      onDateSaved: (value) => pickedDate = value,
-                      onDateSubmitted: (value) => pickedDate = value,
-                    ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: slateColor.withValues(alpha: .05),
+                foregroundColor: slateColor,
+                fixedSize: Size(420, 40),
+                shadowColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: .circular(14),
+                  side: enabledBorder.borderSide,
+                ),
+              ),
+              onPressed: () async {
+                pickedDate = await showDatePicker(
+                  context: context,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                setState(() {});
+              },
+              child: Row(
+                mainAxisAlignment: .spaceBetween,
+                children: [
+                  Text(
+                    pickedDate == null
+                        ? '${today.day}/${today.month}/${today.year}'
+                        : '${pickedDate!.day}/${pickedDate!.month}/${pickedDate!.year}',
+                    textAlign: .left,
                   ),
+                  Icon(Icons.calendar_month),
+                ],
+              ),
+            ),
             TabBar(
               onTap: (value) {
                 if (value != 0) {
