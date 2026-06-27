@@ -123,7 +123,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: slateColor.withValues(alpha: .05),
                 foregroundColor: slateColor,
-                fixedSize: Size(420, 40),
+                fixedSize: Size(.maxFinite, 40),
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
                   borderRadius: .circular(14),
@@ -235,10 +235,12 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                             value: _userController
                                 .getLoggedUser()!
                                 .categories
+                                .keys
                                 .elementAt(index),
                             label: _userController
                                 .getLoggedUser()!
                                 .categories
+                                .keys
                                 .elementAt(index),
                           ),
                         ),

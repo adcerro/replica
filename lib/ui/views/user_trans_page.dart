@@ -147,7 +147,7 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
                           ),
                           Expanded(child: Divider(thickness: 0.25)),
                           Text(
-                            '\$ $totalForDate',
+                            '\$ ${totalForDate.abs()}',
                             style: TextTheme.of(context).labelMedium?.copyWith(
                               color: slateColor,
                               fontWeight: .bold,

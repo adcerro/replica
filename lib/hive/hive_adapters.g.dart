@@ -17,12 +17,16 @@ class UserAdapter extends TypeAdapter<User> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return User(
-      name: fields[0] as String?,
-      email: fields[1] as String,
-      password: fields[2] as String,
-      income: (fields[3] as num).toDouble(),
-      budget: (fields[4] as num).toDouble(),
-    )..categories = (fields[5] as List).cast<String>();
+        name: fields[0] as String?,
+        email: fields[1] as String,
+        password: fields[2] as String,
+        income: (fields[3] as num).toDouble(),
+        budget: (fields[4] as num).toDouble(),
+      )
+      ..categories = (fields[5] as Map).map(
+        (dynamic k, dynamic v) =>
+            MapEntry(k as String, (v as Map).cast<String, dynamic>()),
+      );
   }
 
   @override
@@ -67,7 +71,7 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
     return Transaction(
       userEmail: fields[1] as String,
       value: (fields[3] as num).toDouble(),
-      category: fields[4] as String?,
+      category: fields[4] == null ? '' : fields[4] as String,
       label: fields[2] == null ? '' : fields[2] as String,
       dateTime: fields[0] as DateTime,
     );

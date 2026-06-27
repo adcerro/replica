@@ -3,11 +3,11 @@ class Transaction implements Comparable<Transaction> {
   final String userEmail;
   late String label;
   late double value;
-  String? category;
+  String category;
   Transaction({
     required this.userEmail,
     required this.value,
-    this.category,
+    this.category = '',
     this.label = '',
     required this.dateTime,
   });
