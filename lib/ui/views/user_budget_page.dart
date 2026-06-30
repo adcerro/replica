@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tester/domain/entities/user.dart';
+import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/u_budget_page_widgets/budget_card.dart';
 import 'package:tester/ui/widgets/u_budget_page_widgets/income_card.dart';
@@ -14,6 +16,7 @@ class UserBudgetPage extends StatefulWidget {
 class _UserBudgetPageState extends State<UserBudgetPage> {
   final Color slateColor = Color.fromARGB(150, 100, 116, 139);
   final UserController _userController = Get.find();
+  final TransactionController _transactionController = Get.find();
   bool editIncome = false;
   bool editBudget = false;
   @override
@@ -54,25 +57,37 @@ class _UserBudgetPageState extends State<UserBudgetPage> {
             onExitClicked: () => setState(() {
               editIncome = false;
             }),
-            onSaveClicked: () => setState(() {
-              editIncome = false;
-            }),
+            onSaveClicked: (income) async {
+              User updatedUser = _userController.getLoggedUser()!;
+              updatedUser.income = income;
+              await _userController.updateUser(user: updatedUser);
+              setState(() {
+                editIncome = false;
+              });
+            },
           ),
         ),
         SliverToBoxAdapter(
           child: BudgetCard(
             editMode: editBudget,
             budget: _userController.getLoggedUser()!.budget,
-            spent: 0,
+            spent: _transactionController
+                .getMonthTotal(month: DateTime.now().month)
+                .abs(),
             onEditClicked: () => setState(() {
               editBudget = true;
             }),
             onExitClicked: () => setState(() {
               editBudget = false;
             }),
-            onSaveClicked: () => setState(() {
-              editBudget = false;
-            }),
+            onSaveClicked: (budget) async {
+              User updatedUser = _userController.getLoggedUser()!;
+              updatedUser.budget = budget;
+              await _userController.updateUser(user: updatedUser);
+              setState(() {
+                editBudget = false;
+              });
+            },
           ),
         ),
       ],

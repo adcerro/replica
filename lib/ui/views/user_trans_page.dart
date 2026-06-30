@@ -133,12 +133,7 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
               );
             }
             List<MapEntry<DateTime, List<Transaction>>> groupedTransactions =
-                _transactionController
-                    .groupTransactionsByDate(
-                      transactions: snapshot.data as List<Transaction>,
-                    )
-                    .entries
-                    .toList();
+                _transactionController.groupTransactionsByDate();
 
             return SliverList.builder(
               itemCount: groupedTransactions.length,

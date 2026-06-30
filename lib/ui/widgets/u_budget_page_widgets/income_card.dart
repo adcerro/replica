@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class IncomeCard extends StatelessWidget {
   final bool editMode;
@@ -6,7 +7,7 @@ class IncomeCard extends StatelessWidget {
   final Color slateColor = const Color.fromARGB(150, 100, 116, 139);
   final VoidCallback? onEditClicked;
   final VoidCallback? onExitClicked;
-  final VoidCallback? onSaveClicked;
+  final ValueSetter<double>? onSaveClicked;
 
   const IncomeCard({
     super.key,
@@ -52,6 +53,7 @@ class IncomeCard extends StatelessWidget {
   }
 
   Widget editBuild(BuildContext context) {
+    TextEditingController incomeController = TextEditingController();
     final enabledBorder = OutlineInputBorder(
       borderSide: BorderSide(color: slateColor.withValues(alpha: 0.1)),
       borderRadius: BorderRadius.circular(12),
@@ -87,9 +89,13 @@ class IncomeCard extends StatelessWidget {
           children: [
             Expanded(
               child: TextField(
+                keyboardType: .number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                controller: incomeController,
                 decoration: InputDecoration(
                   enabledBorder: enabledBorder,
                   focusedBorder: focusedBorder,
+                  hintText: income.toString(),
                   filled: true,
                   fillColor: slateColor.withValues(alpha: 0.05),
                   focusColor: Colors.white,
@@ -103,7 +109,8 @@ class IncomeCard extends StatelessWidget {
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(borderRadius: .circular(12)),
               ),
-              onPressed: onSaveClicked,
+              onPressed: () =>
+                  onSaveClicked!(double.parse(incomeController.text)),
               child: Text('Guardar'),
             ),
             IconButton(

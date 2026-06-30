@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BudgetCard extends StatelessWidget {
   final bool editMode;
@@ -7,7 +8,7 @@ class BudgetCard extends StatelessWidget {
   final Color slateColor = const Color.fromARGB(150, 100, 116, 139);
   final VoidCallback? onEditClicked;
   final VoidCallback? onExitClicked;
-  final VoidCallback? onSaveClicked;
+  final ValueSetter<double>? onSaveClicked;
 
   const BudgetCard({
     super.key,
@@ -95,6 +96,7 @@ class BudgetCard extends StatelessWidget {
       borderSide: BorderSide(color: Colors.teal),
       borderRadius: BorderRadius.circular(12),
     );
+    TextEditingController budgetController = TextEditingController();
     return Column(
       spacing: 15,
       children: [
@@ -122,9 +124,13 @@ class BudgetCard extends StatelessWidget {
           children: [
             Expanded(
               child: TextField(
+                controller: budgetController,
+                keyboardType: .number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                   enabledBorder: enabledBorder,
                   focusedBorder: focusedBorder,
+                  hintText: budget.toString(),
                   filled: true,
                   fillColor: slateColor.withValues(alpha: 0.05),
                   focusColor: Colors.white,
@@ -138,7 +144,9 @@ class BudgetCard extends StatelessWidget {
                 backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(borderRadius: .circular(12)),
               ),
-              onPressed: onSaveClicked,
+              onPressed: () {
+                onSaveClicked!(double.parse(budgetController.text));
+              },
               child: Text('Guardar'),
             ),
             IconButton(

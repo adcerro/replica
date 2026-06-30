@@ -5,6 +5,7 @@ import 'package:tester/domain/repositories/i_transaction_repository.dart';
 
 class TransactionController extends GetxController {
   final ITransactionRepository _transactionUseCase;
+  List<Transaction> currentUserTransactions = [];
 
   TransactionController({required this._transactionUseCase});
 
@@ -14,15 +15,20 @@ class TransactionController extends GetxController {
     List<Transaction>? userTransactions = await _transactionUseCase
         .getUserTransactions(userEmail: userEmail);
     logInfo('Got ${userTransactions?.length} transactions for the user');
+    currentUserTransactions = userTransactions ?? [];
     return userTransactions;
   }
 
-  Map<DateTime, List<Transaction>> groupTransactionsByDate({
-    required List<Transaction> transactions,
-  }) {
+  double getMonthTotal({int month = 1}) {
+    return currentUserTransactions
+        .where((transation) => transation.dateTime.month == month)
+        .fold(0, (total, transaction) => total += transaction.value);
+  }
+
+  List<MapEntry<DateTime, List<Transaction>>> groupTransactionsByDate() {
     Map<DateTime, List<Transaction>> grouped = {};
 
-    for (Transaction trans in transactions) {
+    for (Transaction trans in currentUserTransactions!) {
       DateTime key = DateTime(
         trans.dateTime.year,
         trans.dateTime.month,
@@ -32,7 +38,7 @@ class TransactionController extends GetxController {
       grouped[key]!.add(trans);
     }
 
-    return grouped;
+    return grouped.entries.toList();
   }
 
   Future<void> addTransaction({required Transaction transaction}) async {
