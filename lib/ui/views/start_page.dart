@@ -53,6 +53,19 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
+  Future<void> guestLogin() async {
+    if (await _userController.logUser(
+          email: 'guest@user',
+          password: 'guestpass',
+        ) !=
+        null) {
+      logInfo('Logged in as local user');
+      Get.offAllNamed('/user');
+    } else {
+      Get.toNamed('/income');
+    }
+  }
+
   TextButton returnButton(BuildContext context) {
     return TextButton(
       onPressed: () {
@@ -226,9 +239,7 @@ class _StartPageState extends State<StartPage> {
             ),
             SizedBox(height: 10),
             TextButton(
-              onPressed: () {
-                Get.toNamed('/income');
-              },
+              onPressed: guestLogin,
               child: Text(
                 'Continuar sin cuenta',
                 style: TextTheme.of(context).bodySmall?.copyWith(
@@ -362,18 +373,7 @@ class _StartPageState extends State<StartPage> {
               ),
             ),
             TextButton(
-              onPressed: () async {
-                if (await _userController.logUser(
-                      email: 'guest@user',
-                      password: 'guestpass',
-                    ) !=
-                    null) {
-                  logInfo('Logged in as local user');
-                  Get.offAllNamed('/user');
-                } else {
-                  Get.toNamed('/income');
-                }
-              },
+              onPressed: guestLogin,
               child: Text(
                 'Continuar sin cuenta',
                 style: TextTheme.of(context).bodySmall?.copyWith(

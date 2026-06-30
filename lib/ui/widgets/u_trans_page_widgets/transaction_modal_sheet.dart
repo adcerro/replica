@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
@@ -7,7 +6,12 @@ import 'package:tester/ui/controllers/user_controller.dart';
 
 class TransactionModalSheet extends StatefulWidget {
   final ValueSetter<Transaction>? onSaveClicked;
-  const TransactionModalSheet({super.key, this.onSaveClicked});
+  final Transaction? baseTransaction;
+  const TransactionModalSheet({
+    super.key,
+    this.onSaveClicked,
+    this.baseTransaction,
+  });
   @override
   State<TransactionModalSheet> createState() => _TransactionModalSheetState();
 }
@@ -35,7 +39,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
         label: label,
         userEmail: _userController.getLoggedUser()!.email,
         value: isExpense ? ammount * -1 : ammount.abs(),
-        dateTime: pickedDate ?? today,
+        dateTime: pickedDate ?? (widget.baseTransaction?.dateTime ?? today),
       ),
     );
     Get.back();
@@ -52,7 +56,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
       borderSide: BorderSide(color: Colors.teal),
       borderRadius: BorderRadius.circular(12),
     );
-
+    bool isEdit = widget.baseTransaction != null;
     return Container(
       padding: EdgeInsets.all(10),
       child: DefaultTabController(
@@ -73,7 +77,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
               mainAxisAlignment: .spaceBetween,
               children: [
                 Text(
-                  'Nuevo gasto',
+                  isEdit ? 'Editar gasto' : 'Nuevo gasto',
                   style: TextTheme.of(
                     context,
                   ).headlineSmall?.copyWith(fontWeight: .bold),
@@ -93,7 +97,9 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                   decoration: InputDecoration(
                     focusedBorder: focusedBorder,
                     enabledBorder: enabledBorder,
-                    hintText: 'ej. Café 8000',
+                    hintText: isEdit
+                        ? '${widget.baseTransaction!.label} ${widget.baseTransaction!.value.abs()}'
+                        : 'ej. Café 8000',
                     hintStyle: TextTheme.of(
                       context,
                     ).bodyMedium?.copyWith(color: slateColor),
@@ -143,7 +149,11 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                 children: [
                   Text(
                     pickedDate == null
-                        ? '${today.day}/${today.month}/${today.year}'
+                        ? isEdit
+                              ? '${widget.baseTransaction!.dateTime.day}/'
+                                    '${widget.baseTransaction!.dateTime.month}/'
+                                    '${widget.baseTransaction!.dateTime.year}'
+                              : '${today.day}/${today.month}/${today.year}'
                         : '${pickedDate!.day}/${pickedDate!.month}/${pickedDate!.year}',
                     textAlign: .left,
                   ),
@@ -213,7 +223,11 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                   Column(
                     children: [
                       DropdownMenuFormField<String>(
-                        hintText: 'Categoria (Opcional)',
+                        hintText:
+                            isEdit &&
+                                widget.baseTransaction!.category.isNotEmpty
+                            ? widget.baseTransaction!.category
+                            : 'Categoria (Opcional)',
                         textStyle: TextTheme.of(
                           context,
                         ).bodySmall?.copyWith(color: slateColor),
@@ -258,7 +272,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                           registerTransaction(isExpense: true);
                         },
                         child: Text(
-                          'Registrar gasto',
+                          isEdit ? 'Guardar cambios' : 'Registrar gasto',
                           style: TextTheme.of(context).labelLarge?.copyWith(
                             fontWeight: .bold,
                             color: Colors.white,
@@ -281,7 +295,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                           registerTransaction(isExpense: false);
                         },
                         child: Text(
-                          'Registrar ingreso',
+                          isEdit ? 'Guardar cambios' : 'Registrar ingreso',
                           style: TextTheme.of(context).labelLarge?.copyWith(
                             fontWeight: .bold,
                             color: Colors.white,

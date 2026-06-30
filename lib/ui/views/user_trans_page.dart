@@ -45,6 +45,25 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
     );
   }
 
+  void editTransaction(Transaction transaction) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => TransactionModalSheet(
+        baseTransaction: transaction,
+        onSaveClicked: (transaction) async {
+          await _transactionController.updateTransaction(
+            transaction: transaction,
+          );
+          setState(() {
+            userTransactions = _transactionController.getUserTransactions(
+              userEmail: _userController.getLoggedUser()!.email,
+            );
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_userController.getLoggedUser() == null) {
@@ -170,6 +189,9 @@ class _UserTransactionPageState extends State<UserTransactionPage> {
                                         .email,
                                   );
                             });
+                          },
+                          onEdit: () {
+                            editTransaction(transaction);
                           },
                         ),
                       ),
