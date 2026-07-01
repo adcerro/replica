@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
+import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/custom_text_field.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
@@ -16,6 +17,7 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   bool register = Get.arguments['register'];
   final UserController _userController = Get.find();
+  final TransactionController _transactionController = Get.find();
 
   AnimatedToggleSwitch<bool> registerLoginToggle(BuildContext context) {
     TextStyle? optionTextStyle = TextTheme.of(context).labelSmall?.copyWith(
@@ -59,6 +61,7 @@ class _StartPageState extends State<StartPage> {
           password: 'guestpass',
         ) !=
         null) {
+      await _transactionController.getUserTransactions(userEmail: 'guest@user');
       logInfo('Logged in as local user');
       Get.offAllNamed('/user');
     } else {

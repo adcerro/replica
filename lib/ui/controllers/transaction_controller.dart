@@ -28,7 +28,7 @@ class TransactionController extends GetxController {
   List<MapEntry<DateTime, List<Transaction>>> groupTransactionsByDate() {
     Map<DateTime, List<Transaction>> grouped = {};
 
-    for (Transaction trans in currentUserTransactions!) {
+    for (Transaction trans in currentUserTransactions) {
       DateTime key = DateTime(
         trans.dateTime.year,
         trans.dateTime.month,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
 import 'package:tester/ui/widgets/pocket_card.dart';
@@ -12,7 +13,9 @@ class UserMainPage extends StatefulWidget {
 
 class _UserMainPageState extends State<UserMainPage> {
   final UserController _userController = Get.find();
+  final TransactionController _transactionController = Get.find();
   bool hideNumbers = false;
+  GradientBackgroundColor bgColor = .okay;
 
   String dateFormat() {
     DateTime date = DateTime.now().toLocal();
@@ -52,6 +55,23 @@ class _UserMainPageState extends State<UserMainPage> {
     TextStyle? littleTextStyle = TextTheme.of(
       context,
     ).bodyMedium?.copyWith(color: Colors.white.withValues(alpha: 0.8));
+    double spentFraction =
+        _transactionController
+            .getMonthTotal(month: DateTime.now().month)
+            .abs() /
+        _userController.getLoggedUser()!.budget;
+    double remainingBudget =
+        _userController.getLoggedUser()!.budget -
+        _transactionController.getMonthTotal(month: DateTime.now().month).abs();
+
+    String statusMessage = 'Vas bien';
+    if (spentFraction >= 0.5 && spentFraction < 0.7) {
+      statusMessage = 'Cuidado, vas por encima';
+      bgColor = .warning;
+    } else if (spentFraction > 0.7) {
+      statusMessage = 'Te estas pasando';
+      bgColor = .danger;
+    }
 
     return CustomScrollView(
       slivers: [
@@ -94,6 +114,7 @@ class _UserMainPageState extends State<UserMainPage> {
           flexibleSpace: ClipRRect(
             borderRadius: .circular(14),
             child: GradientBackground(
+              color: bgColor,
               child: Container(
                 margin: EdgeInsets.fromLTRB(15, 16, 15, 25),
                 child: Column(
@@ -103,11 +124,9 @@ class _UserMainPageState extends State<UserMainPage> {
                   children: [
                     Text(dateFormat(), style: littleTextStyle),
                     Spacer(),
-                    Text('Vas bien', style: littleTextStyle),
+                    Text(statusMessage, style: littleTextStyle),
                     Text(
-                      hideNumbers
-                          ? '****'
-                          : '\$ ${_userController.getLoggedUser()?.budget.toString()}',
+                      hideNumbers ? '****' : '\$ $remainingBudget',
                       style: TextTheme.of(context).displayLarge?.copyWith(
                         fontWeight: .bold,
                         color: Colors.white,
@@ -118,9 +137,14 @@ class _UserMainPageState extends State<UserMainPage> {
                       style: littleTextStyle,
                     ),
                     LinearProgressIndicator(
-                      value: 0,
+                      value: spentFraction,
                       minHeight: 15,
                       backgroundColor: Colors.white.withValues(alpha: 0.15),
+                      color: switch (bgColor) {
+                        .danger => Color(0xFFF87171),
+                        .warning => Color(0xFFF0C040),
+                        _ => Color(0xFF0891B2),
+                      },
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ],
