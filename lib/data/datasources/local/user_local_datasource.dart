@@ -19,6 +19,7 @@ class UserLocalDataSource implements IUserLocalDataSource {
     for (User usr in _box.values) {
       if (usr.email == email) {
         await _box.delete(email);
+        return;
       }
     }
     throw Exception('User does not exist');
@@ -34,6 +35,7 @@ class UserLocalDataSource implements IUserLocalDataSource {
     for (User usr in _box.values) {
       if (usr.email == user.email) {
         await _box.put(user.email, user);
+        return;
       }
     }
     throw Exception('User does not exist!');

@@ -7,6 +7,7 @@ import 'package:tester/hive/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(CategoryInfoAdapter());
     registerAdapter(TransactionAdapter());
     registerAdapter(UserAdapter());
   }
@@ -14,6 +15,7 @@ extension HiveRegistrar on HiveInterface {
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(CategoryInfoAdapter());
     registerAdapter(TransactionAdapter());
     registerAdapter(UserAdapter());
   }

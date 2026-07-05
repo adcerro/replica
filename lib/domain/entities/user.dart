@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'category_info.dart';
 
 class User {
   late String? name;
@@ -6,9 +6,7 @@ class User {
   late String password;
   late double income;
   late double budget;
-  Map<String, Map<String, dynamic>> categories = {
-    '': {'color': Colors.grey, 'icon': '❔'},
-  };
+  Map<String, CategoryInfo> categories = {};
   User({
     this.name,
     required this.email,

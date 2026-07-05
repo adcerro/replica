@@ -21,10 +21,13 @@ class TransactionListTile extends StatelessWidget {
       tileColor: Colors.white,
       shape: RoundedRectangleBorder(
         side: BorderSide(
-          color: userController
-              .getLoggedUser()!
-              .categories[transaction.category]!['color']
-              .withValues(alpha: 0.1),
+          color: Color(
+            userController
+                    .getLoggedUser()!
+                    .categories[transaction.category]
+                    ?.color ??
+                0xFF808080,
+          ).withValues(alpha: 0.1),
         ),
         borderRadius: .circular(12),
       ),
@@ -38,8 +41,10 @@ class TransactionListTile extends StatelessWidget {
         alignment: .center,
         child: Text(
           userController
-              .getLoggedUser()!
-              .categories[transaction.category]!['icon'],
+                  .getLoggedUser()!
+                  .categories[transaction.category]
+                  ?.icon ??
+              '❔',
           style: TextStyle(fontSize: 20),
         ),
       ),

@@ -17,16 +17,12 @@ class UserAdapter extends TypeAdapter<User> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return User(
-        name: fields[0] as String?,
-        email: fields[1] as String,
-        password: fields[2] as String,
-        income: (fields[3] as num).toDouble(),
-        budget: (fields[4] as num).toDouble(),
-      )
-      ..categories = (fields[5] as Map).map(
-        (dynamic k, dynamic v) =>
-            MapEntry(k as String, (v as Map).cast<String, dynamic>()),
-      );
+      name: fields[0] as String?,
+      email: fields[1] as String,
+      password: fields[2] as String,
+      income: (fields[3] as num).toDouble(),
+      budget: (fields[4] as num).toDouble(),
+    )..categories = (fields[5] as Map).cast<String, CategoryInfo>();
   }
 
   @override
@@ -100,6 +96,43 @@ class TransactionAdapter extends TypeAdapter<Transaction> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is TransactionAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class CategoryInfoAdapter extends TypeAdapter<CategoryInfo> {
+  @override
+  final typeId = 2;
+
+  @override
+  CategoryInfo read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return CategoryInfo(
+      color: (fields[0] as num).toInt(),
+      icon: fields[1] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, CategoryInfo obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.color)
+      ..writeByte(1)
+      ..write(obj.icon);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CategoryInfoAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
