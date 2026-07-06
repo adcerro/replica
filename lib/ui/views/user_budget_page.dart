@@ -6,6 +6,8 @@ import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/u_budget_page_widgets/budget_card.dart';
 import 'package:tester/ui/widgets/u_budget_page_widgets/income_card.dart';
 
+import '../widgets/u_budget_page_widgets/create_category_card.dart';
+
 class UserBudgetPage extends StatefulWidget {
   const UserBudgetPage({super.key});
 
@@ -19,6 +21,7 @@ class _UserBudgetPageState extends State<UserBudgetPage> {
   final TransactionController _transactionController = Get.find();
   bool editIncome = false;
   bool editBudget = false;
+  bool createCategory = false;
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -89,6 +92,48 @@ class _UserBudgetPageState extends State<UserBudgetPage> {
               });
             },
           ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: .all(15),
+            child: Row(
+              spacing: 10,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: .circular(14),
+                  ),
+                  height: 15,
+                  width: 5,
+                ),
+                Text(
+                  'BOLSILLOS',
+                  style: TextTheme.of(
+                    context,
+                  ).labelLarge?.copyWith(color: slateColor),
+                ),
+                Spacer(),
+                !createCategory
+                    ? TextButton(
+                        onPressed: () => setState(() {
+                          createCategory = true;
+                        }),
+                        child: Text('+ Agregar'),
+                      )
+                    : SizedBox(),
+              ],
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: createCategory
+              ? CreateCategoryCard(
+                  onCancelPressed: () => setState(() {
+                    createCategory = false;
+                  }),
+                )
+              : SizedBox(),
         ),
       ],
     );
