@@ -113,17 +113,20 @@ class CategoryInfoAdapter extends TypeAdapter<CategoryInfo> {
     return CategoryInfo(
       color: (fields[0] as num).toInt(),
       icon: fields[1] as String,
+      budget: (fields[2] as num).toDouble(),
     );
   }
 
   @override
   void write(BinaryWriter writer, CategoryInfo obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.color)
       ..writeByte(1)
-      ..write(obj.icon);
+      ..write(obj.icon)
+      ..writeByte(2)
+      ..write(obj.budget);
   }
 
   @override

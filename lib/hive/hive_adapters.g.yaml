@@ -35,9 +35,11 @@ types:
         index: 4
   CategoryInfo:
     typeId: 2
-    nextIndex: 2
+    nextIndex: 3
     fields:
       color:
         index: 0
       icon:
         index: 1
+      budget:
+        index: 2

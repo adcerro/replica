@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
 import 'package:tester/domain/entities/user.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
+import 'package:tester/ui/widgets/category_card.dart';
 import 'package:tester/ui/widgets/u_budget_page_widgets/budget_card.dart';
 import 'package:tester/ui/widgets/u_budget_page_widgets/income_card.dart';
 
+import '../../domain/entities/category_info.dart';
 import '../widgets/u_budget_page_widgets/create_category_card.dart';
 
 class UserBudgetPage extends StatefulWidget {
@@ -154,6 +157,33 @@ class _UserBudgetPageState extends State<UserBudgetPage> {
                   },
                 )
               : SizedBox(),
+        ),
+        SliverGrid.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            mainAxisExtent: 130,
+          ),
+          itemCount: _userController.getLoggedUser()?.categories.length ?? 0,
+          itemBuilder: (context, index) {
+            String categoryName =
+                _userController.getLoggedUser()?.categories.keys.elementAt(
+                  index,
+                ) ??
+                '';
+            CategoryInfo? categoryInfo = _userController
+                .getLoggedUser()
+                ?.categories[categoryName];
+            return CategoryCard(
+              foregroundColor: Color(categoryInfo?.color ?? 0xFF808080),
+              emojiIcon: categoryInfo?.icon ?? '',
+              title: categoryName,
+              spent: 0,
+              budget: categoryInfo?.budget ?? 0,
+              hideAmmounts: false,
+            );
+          },
         ),
       ],
     );

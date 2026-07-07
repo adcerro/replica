@@ -20,22 +20,20 @@ class TransactionListTile extends StatelessWidget {
     return ListTile(
       tileColor: Colors.white,
       shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: Color(
-            userController
-                    .getLoggedUser()!
-                    .categories[transaction.category]
-                    ?.color ??
-                0xFF808080,
-          ).withValues(alpha: 0.1),
-        ),
+        side: BorderSide(color: slateColor.withValues(alpha: 0.1)),
         borderRadius: .circular(12),
       ),
       leading: Container(
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: slateColor,
+          color: Color(
+            userController
+                    .getLoggedUser()!
+                    .categories[transaction.category]
+                    ?.color ??
+                0xFF808080,
+          ).withValues(alpha: 0.5),
           borderRadius: .circular(12),
         ),
         alignment: .center,

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tester/ui/controllers/transaction_controller.dart';
 import 'package:tester/ui/controllers/user_controller.dart';
 import 'package:tester/ui/widgets/gradient_bakground.dart';
-import 'package:tester/ui/widgets/pocket_card.dart';
+import 'package:tester/ui/widgets/category_card.dart';
 
 class UserMainPage extends StatefulWidget {
   const UserMainPage({super.key});
@@ -188,13 +188,12 @@ class _UserMainPageState extends State<UserMainPage> {
             ),
             child: Column(
               children: [
-                PocketCard(
+                CategoryCard(
                   foregroundColor: Colors.blue,
                   emojiIcon: '🎮',
                   title: 'Recreación',
                   spent: 0,
                   budget: 0,
-                  completion: 0,
                   hideAmmounts: hideNumbers,
                 ),
               ],

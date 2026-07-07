@@ -24,6 +24,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
   final UserController _userController = Get.find();
   final TextEditingController transactionTextController =
       TextEditingController();
+  final TextEditingController categoryTextController = TextEditingController();
   void registerTransaction({bool isExpense = true}) {
     double? ammount = double.tryParse(
       transactionTextController.text.split(' ').last,
@@ -40,6 +41,8 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
         userEmail: _userController.getLoggedUser()!.email,
         value: isExpense ? ammount * -1 : ammount.abs(),
         dateTime: pickedDate ?? (widget.baseTransaction?.dateTime ?? today),
+        category:
+            widget.baseTransaction?.category ?? categoryTextController.text,
       ),
     );
     Get.back();
@@ -223,6 +226,7 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                   Column(
                     children: [
                       DropdownMenuFormField<String>(
+                        controller: categoryTextController,
                         hintText:
                             isEdit &&
                                 widget.baseTransaction!.category.isNotEmpty
@@ -245,18 +249,24 @@ class _TransactionModalSheetState extends State<TransactionModalSheet> {
                         selectOnly: true,
                         dropdownMenuEntries: List.generate(
                           _userController.getLoggedUser()!.categories.length,
-                          (index) => DropdownMenuEntry(
-                            value: _userController
+                          (index) {
+                            String categoryName = _userController
                                 .getLoggedUser()!
                                 .categories
                                 .keys
-                                .elementAt(index),
-                            label: _userController
-                                .getLoggedUser()!
-                                .categories
-                                .keys
-                                .elementAt(index),
-                          ),
+                                .elementAt(index);
+                            return DropdownMenuEntry(
+                              value: categoryName,
+                              leadingIcon: Text(
+                                _userController
+                                        .getLoggedUser()
+                                        ?.categories[categoryName]
+                                        ?.icon ??
+                                    '',
+                              ),
+                              label: categoryName,
+                            );
+                          },
                         ),
                       ),
                       SizedBox(height: 10),

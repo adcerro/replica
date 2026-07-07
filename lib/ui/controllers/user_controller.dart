@@ -49,6 +49,7 @@ class UserController extends GetxController {
     _loggedUser!.categories[categoryName] = CategoryInfo(
       color: 0xFF000000 | Random().nextInt(0xFFFFFF),
       icon: categoryIcon,
+      budget: categoryBudget,
     );
     await _userUseCase.updateUser(user: _loggedUser!);
     logInfo('Added category $categoryName to user ${_loggedUser!.email}');

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class PocketCard extends StatelessWidget {
+class CategoryCard extends StatelessWidget {
   final Color foregroundColor;
   final String emojiIcon;
   final String title;
   final double spent;
   final double budget;
-  final double completion;
+
   final bool hideAmmounts;
-  const PocketCard({
+  const CategoryCard({
     super.key,
     required this.foregroundColor,
     this.emojiIcon = '',
     required this.title,
     required this.spent,
     required this.budget,
-    required this.completion,
+
     this.hideAmmounts = false,
   });
 
@@ -69,7 +69,7 @@ class PocketCard extends StatelessWidget {
             ),
           ),
           LinearProgressIndicator(
-            value: completion,
+            value: spent / budget,
             borderRadius: BorderRadius.circular(12),
             minHeight: 10,
             backgroundColor: Color.fromARGB(40, 100, 116, 139),
