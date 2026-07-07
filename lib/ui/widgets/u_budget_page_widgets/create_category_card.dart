@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tester/ui/widgets/u_budget_page_widgets/icon_modal_sheet.dart';
 
-class CreateCategoryCard extends StatelessWidget {
-  const CreateCategoryCard({super.key, this.onCancelPressed});
-  final Color slateColor = const Color.fromARGB(150, 100, 116, 139);
+class CreateCategoryCard extends StatefulWidget {
+  const CreateCategoryCard({
+    super.key,
+    this.onCancelPressed,
+    this.onAddCategory,
+  });
+
   final VoidCallback? onCancelPressed;
+  final ValueSetter<Map<String, String>>? onAddCategory;
 
+  @override
+  State<StatefulWidget> createState() => _CreateCategoryCardState();
+}
+
+class _CreateCategoryCardState extends State<CreateCategoryCard> {
+  final Color slateColor = const Color.fromARGB(150, 100, 116, 139);
+  String selectedIcon = '💳';
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _budgetController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final enabledBorder = OutlineInputBorder(
@@ -44,11 +60,16 @@ class CreateCategoryCard extends StatelessWidget {
                 ),
                 onPressed: () {
                   showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    showDragHandle: true,
                     context: context,
                     builder: (context) {
-                      return Container(
-                        height: 200,
-                        child: Center(child: Text('Selecciona un icono')),
+                      return IconModalSheet(
+                        onSelectedIcon: (value) {
+                          setState(() {
+                            selectedIcon = value;
+                          });
+                        },
                       );
                     },
                   );
@@ -59,7 +80,7 @@ class CreateCategoryCard extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        '💳',
+                        selectedIcon,
                         style: TextTheme.of(context).headlineSmall,
                       ),
                     ),
@@ -82,6 +103,7 @@ class CreateCategoryCard extends StatelessWidget {
               ),
               Expanded(
                 child: TextField(
+                  controller: _nameController,
                   decoration: InputDecoration(
                     hintText: 'Nombre (ej. Transporte)',
                     hintStyle: TextTheme.of(context).labelLarge,
@@ -96,6 +118,9 @@ class CreateCategoryCard extends StatelessWidget {
             ],
           ),
           TextField(
+            controller: _budgetController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: InputDecoration(
               hintText: 'Presupuesto (ej. 4000)',
               hintStyle: TextTheme.of(context).labelLarge,
@@ -116,7 +141,13 @@ class CreateCategoryCard extends StatelessWidget {
                     backgroundColor: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(borderRadius: .circular(12)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.onAddCategory?.call({
+                      'icon': selectedIcon,
+                      'name': _nameController.text,
+                      'budget': _budgetController.text,
+                    });
+                  },
                   child: Text('Agregar'),
                 ),
               ),
@@ -127,7 +158,7 @@ class CreateCategoryCard extends StatelessWidget {
                     context,
                   ).labelLarge?.copyWith(fontWeight: .bold),
                 ),
-                onPressed: onCancelPressed,
+                onPressed: widget.onCancelPressed,
                 child: Text('Cancelar'),
               ),
             ],

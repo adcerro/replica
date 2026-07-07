@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:bcrypt/bcrypt.dart';
 import 'package:get/state_manager.dart';
 import 'package:loggy/loggy.dart';
+import 'package:tester/domain/entities/category_info.dart';
 import 'package:tester/domain/repositories/i_user_repository.dart';
 
 import '../../domain/entities/user.dart';
@@ -28,6 +31,27 @@ class UserController extends GetxController {
 
   User? getLoggedUser() {
     return _loggedUser;
+  }
+
+  Future<void> addCategory({
+    required String categoryName,
+    required String categoryIcon,
+    required double categoryBudget,
+  }) async {
+    if (_loggedUser == null) {
+      logError('No logged user to add category.');
+      return;
+    }
+    if (_loggedUser!.categories.containsKey(categoryName)) {
+      logError('Category already exists.');
+      return;
+    }
+    _loggedUser!.categories[categoryName] = CategoryInfo(
+      color: 0xFF000000 | Random().nextInt(0xFFFFFF),
+      icon: categoryIcon,
+    );
+    await _userUseCase.updateUser(user: _loggedUser!);
+    logInfo('Added category $categoryName to user ${_loggedUser!.email}');
   }
 
   void logOut() {

@@ -132,6 +132,26 @@ class _UserBudgetPageState extends State<UserBudgetPage> {
                   onCancelPressed: () => setState(() {
                     createCategory = false;
                   }),
+                  onAddCategory: (categoryInfo) async {
+                    if (categoryInfo['name'] == null ||
+                        categoryInfo['name']!.isEmpty) {
+                      Get.snackbar(
+                        'Error',
+                        'El nombre del bolsillo no puede estar vacío.',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                      return;
+                    }
+                    await _userController.addCategory(
+                      categoryName: categoryInfo['name']!,
+                      categoryIcon: categoryInfo['icon']!,
+                      categoryBudget:
+                          double.tryParse(categoryInfo['budget'] ?? '0') ?? 0,
+                    );
+                    setState(() {
+                      createCategory = false;
+                    });
+                  },
                 )
               : SizedBox(),
         ),
